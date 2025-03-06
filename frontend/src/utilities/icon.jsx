@@ -1,7 +1,7 @@
 import { TbBrandFacebook } from "react-icons/tb";
 import { IoLogoInstagram, IoMdClose } from "react-icons/io";
 import { RiTwitterXLine, RiDeleteBin3Line } from "react-icons/ri";
-import { FiPhoneCall } from "react-icons/fi";
+import { FiPhoneCall, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import {
   HiOutlineUser,
   HiOutlineShoppingBag,
@@ -22,6 +22,8 @@ const icons = {
   HiMiniXMark,
   RiDeleteBin3Line,
   FiPhoneCall,
+  FiChevronLeft,
+  FiChevronRight,
 };
 
 export default icons;

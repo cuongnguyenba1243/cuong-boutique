@@ -4,15 +4,15 @@ import icons from "../../utilities/icon";
 
 const { FiChevronLeft, FiChevronRight } = icons;
 
-const NewArrivals = () => {
-  const newArrivals = [
+const BestSeller = () => {
+  const bestSeller = [
     {
       _id: "1",
       name: "Stylish Jacket",
       price: 120,
       images: [
         {
-          url: "https://balenciaga.dam.kering.com/m/26ba75c7836c064c/Small-828163T41498065_X.jpg?v=2",
+          url: "https://balenciaga.dam.kering.com/m/510e5d833d6cf7e4/Small-817666TRS311000_Y.jpg?v=1",
           altText: "Stylish Jacket",
         },
       ],
@@ -23,7 +23,7 @@ const NewArrivals = () => {
       price: 120,
       images: [
         {
-          url: "https://balenciaga.dam.kering.com/m/320cdd8c44a867b7/Small-830855TSS021000_X.jpg?v=2",
+          url: "https://balenciaga.dam.kering.com/m/788c185542179f16/Small-805544TRS131000_Y.jpg?v=1",
           altText: "Stylish Jacket",
         },
       ],
@@ -34,7 +34,7 @@ const NewArrivals = () => {
       price: 120,
       images: [
         {
-          url: "https://balenciaga.dam.kering.com/m/79a8025ba2023f2b/Small-831697TSW651963_X.jpg?v=1",
+          url: "https://balenciaga.dam.kering.com/m/61ebb5cb0aef2dab/Small-817649TRP151000_Y.jpg?v=1",
           altText: "Stylish Jacket",
         },
       ],
@@ -45,7 +45,7 @@ const NewArrivals = () => {
       price: 120,
       images: [
         {
-          url: "https://balenciaga.dam.kering.com/m/365c9f0a72d9dec5/Small-831713TSW671441_X.jpg?v=1",
+          url: "https://balenciaga.dam.kering.com/m/76b43ef162bc8692/Small-814379TQO101000_Y.jpg?v=1",
           altText: "Stylish Jacket",
         },
       ],
@@ -56,7 +56,7 @@ const NewArrivals = () => {
       price: 120,
       images: [
         {
-          url: "https://balenciaga.dam.kering.com/m/67e3426bd12ab0cf/Small-831697TSW671441_X.jpg?v=1",
+          url: "https://balenciaga.dam.kering.com/m/72dc950ebfa02588/Small-823408TRWB49000_Y.jpg?v=1",
           altText: "Stylish Jacket",
         },
       ],
@@ -67,7 +67,7 @@ const NewArrivals = () => {
       price: 120,
       images: [
         {
-          url: "https://balenciaga.dam.kering.com/m/4bc39cb03854c31f/Small-831298TMT031000_X.jpg?v=1",
+          url: "https://balenciaga.dam.kering.com/m/b748af5c1f7ba84/Small-814227THW254245_Y.jpg?v=3",
           altText: "Stylish Jacket",
         },
       ],
@@ -78,7 +78,7 @@ const NewArrivals = () => {
       price: 120,
       images: [
         {
-          url: "https://balenciaga.dam.kering.com/m/7dbad903b2d0b374/Small-831516TQP079966_X.jpg?v=1",
+          url: "https://balenciaga.dam.kering.com/m/1c0fb166a3163fc3/Small-814394TPQ384140_Y.jpg?v=1",
           altText: "Stylish Jacket",
         },
       ],
@@ -89,7 +89,7 @@ const NewArrivals = () => {
       price: 120,
       images: [
         {
-          url: "https://balenciaga.dam.kering.com/m/17f305c18e6b34f0/Small-831550TMT321000_X.jpg?v=1",
+          url: "https://balenciaga.dam.kering.com/m/46f09956b82f1250/Small-808928TKP031000_Y.jpg?v=1",
           altText: "Stylish Jacket",
         },
       ],
@@ -150,13 +150,13 @@ const NewArrivals = () => {
   return (
     <section className="px-4 py-16 lg:px-0">
       <div className="container relative mx-auto mb-10 text-center">
-        <h2 className="mb-4 text-3xl font-bold">Explore New Arrivals</h2>
+        <h2 className="mb-4 text-3xl font-bold">Explore Best Sellers</h2>
         <p className="mb-12 text-lg text-gray-600">
-          Discover the latest styles straight off the runway, freshly added to
-          keep your wardrobe on the cutting edge of fashion.
+          Discover the best-selling styles straight off the runway, freshly
+          added to keep your wardrobe on the cutting edge of fashion.
         </p>
 
-        <div className="absolute bottom-[-40px] right-0 flex space-x-2">
+        <div className="absolute bottom-[-30px] right-0 flex space-x-2">
           <button
             onClick={() => scroll("left")}
             disabled={!canScrollLeft}
@@ -181,7 +181,7 @@ const NewArrivals = () => {
         ref={scrollRef}
         className={`container relative mx-auto flex space-x-6 overflow-x-scroll scroll-smooth ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
       >
-        {newArrivals.map((product) => (
+        {bestSeller.map((product) => (
           <div
             key={product._id}
             className="relative min-w-[100%] rounded-md border border-gray-200 shadow-md sm:min-w-[50%] lg:min-w-[30%]"
@@ -204,4 +204,4 @@ const NewArrivals = () => {
     </section>
   );
 };
-export default NewArrivals;
+export default BestSeller;
