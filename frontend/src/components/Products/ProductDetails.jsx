@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
+import ProductGrid from "./ProductGrid";
 
 const products = {
   name: "Round Taxi Jacket",
@@ -29,11 +31,55 @@ const products = {
   ],
 };
 
+const similarProducts = [
+  {
+    _id: 1,
+    name: "Product 1",
+    price: 100,
+    images: [
+      {
+        url: "https://balenciaga.dam.kering.com/m/8b7f2a7cbc91449/Small-767877TSVG18704_Y.jpg?v=1",
+      },
+    ],
+  },
+  {
+    _id: 2,
+    name: "Product 2",
+    price: 100,
+    images: [
+      {
+        url: "https://balenciaga.dam.kering.com/m/30a5bff6aa241171/Small-744441TRVK21300_Y.jpg?v=1",
+      },
+    ],
+  },
+  {
+    _id: 3,
+    name: "Product 3",
+    price: 100,
+    images: [
+      {
+        url: "https://balenciaga.dam.kering.com/m/3ccac790e880a54b/Small-739024TQVQ91073_Y.jpg?v=1",
+      },
+    ],
+  },
+  {
+    _id: 4,
+    name: "Product 4",
+    price: 100,
+    images: [
+      {
+        url: "https://balenciaga.dam.kering.com/m/2b882f8948ab756b/Small-783397TSVB53421_Y.jpg?v=1",
+      },
+    ],
+  },
+];
+
 const ProductDetails = () => {
   const [mainImage, setMainImage] = useState();
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   useEffect(() => {
     if (products?.images?.length > 0) {
@@ -49,6 +95,24 @@ const ProductDetails = () => {
     if (action === "minus" && quantity > 1) {
       setQuantity((prev) => prev - 1);
     }
+  };
+
+  const handleAddToCart = () => {
+    if (!selectedSize || !selectedColor) {
+      toast.error("Please select size and color before add to cart.", {
+        duration: 1000,
+      });
+      return;
+    }
+
+    setIsButtonDisabled(true);
+
+    setTimeout(() => {
+      toast.success("Product added to cart!", {
+        duration: 1000,
+      });
+      setIsButtonDisabled(false);
+    }, 500);
   };
 
   return (
@@ -153,8 +217,12 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            <button className="mb-4 w-full rounded bg-black px-6 py-2 uppercase text-white hover:bg-gray-700">
-              Add to cart
+            <button
+              onClick={handleAddToCart}
+              disabled={isButtonDisabled}
+              className={`mb-4 w-full rounded bg-black px-6 py-2 text-white ${isButtonDisabled ? "cursor-not-allowed opacity-50" : "hover:bg-gray-900"}`}
+            >
+              {!isButtonDisabled ? "ADD TO CART" : "ADDING..."}
             </button>
 
             <div className="mt-10 text-gray-700">
@@ -173,6 +241,13 @@ const ProductDetails = () => {
               </table>
             </div>
           </div>
+        </div>
+
+        <div className="mt-20">
+          <h2 className="mb-4 text-center text-2xl font-medium">
+            You May Also Like
+          </h2>
+          <ProductGrid products={similarProducts} />
         </div>
       </div>
     </div>
