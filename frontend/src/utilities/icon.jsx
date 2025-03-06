@@ -9,6 +9,7 @@ import {
   HiMagnifyingGlass,
   HiMiniXMark,
 } from "react-icons/hi2";
+
 const icons = {
   TbBrandFacebook,
   IoLogoInstagram,
