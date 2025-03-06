@@ -71,7 +71,7 @@ const NavBar = () => {
           >
             <HiOutlineShoppingBag className="h-6 w-6 text-gray-700" />
             <span className="absolute -top-1.5 rounded-full bg-red-500 px-2 py-1 text-xs text-white">
-              0
+              2
             </span>
           </button>
 

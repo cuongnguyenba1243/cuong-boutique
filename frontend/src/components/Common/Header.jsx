@@ -3,10 +3,10 @@ import NavBar from "./NavBar";
 
 const Header = () => {
   return (
-    <div>
+    <header className="border-b border-gray-300">
       <TopHeader />
       <NavBar />
-    </div>
+    </header>
   );
 };
 export default Header;

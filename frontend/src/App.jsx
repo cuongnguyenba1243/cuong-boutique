@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import { UserLayout } from "./components";
 import path from "./utilities/path";
+import { UserLayout } from "./components";
 
 const App = () => {
   return (
