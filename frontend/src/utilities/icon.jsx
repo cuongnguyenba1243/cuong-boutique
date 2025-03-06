@@ -8,6 +8,8 @@ import {
   HiBars3BottomRight,
   HiMagnifyingGlass,
   HiMiniXMark,
+  HiArrowPathRoundedSquare,
+  HiOutlineCreditCard,
 } from "react-icons/hi2";
 
 const icons = {
@@ -24,6 +26,8 @@ const icons = {
   FiPhoneCall,
   FiChevronLeft,
   FiChevronRight,
+  HiArrowPathRoundedSquare,
+  HiOutlineCreditCard,
 };
 
 export default icons;

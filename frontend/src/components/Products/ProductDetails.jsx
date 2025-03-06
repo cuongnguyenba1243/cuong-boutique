@@ -243,6 +243,7 @@ const ProductDetails = () => {
           </div>
         </div>
 
+        {/* Similar Products */}
         <div className="mt-20">
           <h2 className="mb-4 text-center text-2xl font-medium">
             You May Also Like
