@@ -4,6 +4,7 @@ const path = {
   LOGIN: "/login",
   REGISTER: "/register",
   PROFILE: "/profile",
+  COLLECTIONS: "/collections/all",
 };
 
 export default path;

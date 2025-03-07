@@ -5,6 +5,7 @@ import Home from "./Pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import Collections from "./pages/Collections";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
       <Route path={path.HOME} element={<UserLayout />}>
         <Route path={path.HOME} element={<Home />} />
         <Route path={path.PROFILE} element={<Profile />} />
+        <Route path={path.COLLECTIONS} element={<Collections />} />
       </Route>
 
       <Route path={path.LOGIN} element={<Login />} />
