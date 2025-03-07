@@ -85,7 +85,7 @@ const ProductDetails = () => {
     if (products?.images?.length > 0) {
       setMainImage(products.images[0].url);
     }
-  }, [products]);
+  }, []);
 
   const handleQuantityChange = (action) => {
     if (action === "plus") {

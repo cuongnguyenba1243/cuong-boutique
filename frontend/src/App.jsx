@@ -3,6 +3,7 @@ import path from "./utilities/path";
 import UserLayout from "./components/Layout/UserLayout";
 import Home from "./Pages/Home";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
       </Route>
 
       <Route path={path.LOGIN} element={<Login />} />
+      <Route path={path.REGISTER} element={<Register />} />
     </Routes>
   );
 };
