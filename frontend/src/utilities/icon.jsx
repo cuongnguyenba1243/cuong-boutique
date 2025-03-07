@@ -2,6 +2,7 @@ import { TbBrandFacebook } from "react-icons/tb";
 import { IoLogoInstagram, IoMdClose } from "react-icons/io";
 import { RiTwitterXLine, RiDeleteBin3Line } from "react-icons/ri";
 import { FiPhoneCall, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { FaFilter } from "react-icons/fa";
 import {
   HiOutlineUser,
   HiOutlineShoppingBag,
@@ -28,6 +29,7 @@ const icons = {
   FiChevronRight,
   HiArrowPathRoundedSquare,
   HiOutlineCreditCard,
+  FaFilter,
 };
 
 export default icons;
