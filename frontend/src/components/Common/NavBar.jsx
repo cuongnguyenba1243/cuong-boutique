@@ -61,7 +61,7 @@ const NavBar = () => {
 
         {/* Right */}
         <div className="flex items-center space-x-4">
-          <Link to={path.HOME} className="hover:text-black">
+          <Link to={path.PROFILE} className="hover:text-black">
             <HiOutlineUser className="h-6 w-6 text-gray-700" />
           </Link>
 
