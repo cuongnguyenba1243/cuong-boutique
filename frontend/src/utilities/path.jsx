@@ -4,8 +4,9 @@ const path = {
   LOGIN: "/login",
   REGISTER: "/register",
   PROFILE: "/profile",
-  COLLECTIONS: "/collections/:collection",
+  COLLECTIONS: "/collections/all",
   PRODUCT_DETAILS: "/product/:id",
+  CHECKOUT: "/checkout",
 };
 
 export default path;
