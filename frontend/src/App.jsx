@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Collections from "./pages/Collections";
+import ProductDetails from "./components/Products/ProductDetails";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path={path.HOME} element={<Home />} />
         <Route path={path.PROFILE} element={<Profile />} />
         <Route path={path.COLLECTIONS} element={<Collections />} />
+        <Route path={path.PRODUCT_DETAILS} element={<ProductDetails />} />
       </Route>
 
       <Route path={path.LOGIN} element={<Login />} />

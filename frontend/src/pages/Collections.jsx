@@ -2,6 +2,7 @@ import ProductGrid from "../components/Products/ProductGrid";
 import icons from "../utilities/icon";
 import { useState, useEffect, useRef } from "react";
 import FilterSidebar from "../components/Products/FilterSidebar";
+import SortProduct from "../components/Products/SortProduct";
 
 const { FaFilter } = icons;
 
@@ -104,7 +105,10 @@ const Collections = () => {
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.addEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   return (
@@ -126,11 +130,12 @@ const Collections = () => {
         <FilterSidebar />
       </div>
 
+      {/* All collection */}
       <div className="flex-grow p-4">
         <h2 className="mb-4 text-2xl font-medium uppercase">All Collection</h2>
+        <SortProduct />
         <ProductGrid products={products} />
       </div>
-      {/* All collections */}
     </div>
   );
 };
