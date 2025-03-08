@@ -10,6 +10,7 @@ const path = {
   ORDER_CONFIRMATION: "/order-confirmation",
   MY_ORDERS: "/my-orders",
   ORDER_DETAILS: "/order",
+  ADMIN: "/admin",
 };
 
 export default path;

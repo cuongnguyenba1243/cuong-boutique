@@ -11,13 +11,20 @@ import Checkout from "./components/Cart/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import MyOrders from "./pages/MyOrders";
 import OrderDetails from "./pages/OrderDetails";
+import AdminLayout from "./components/Admin/AdminLayout";
+import AdminHomePage from "./components/Admin/AdminHomePage";
 
 const App = () => {
   return (
     <Routes>
       <Route path={path.HOME} element={<UserLayout />}>
+        {/* User Layout */}
         <Route path={path.HOME} element={<Home />} />
         <Route path={path.PROFILE} element={<Profile />} />
+        <Route path={path.CHECKOUT} element={<Checkout />} />
+        <Route path={path.ORDER_CONFIRMATION} element={<OrderConfirmation />} />
+        <Route path={path.MY_ORDERS} element={<MyOrders />} />
+        <Route path={`${path.ORDER_DETAILS}/:id`} element={<OrderDetails />} />
         <Route
           path={`${path.COLLECTIONS}/:collection`}
           element={<Collections />}
@@ -26,10 +33,11 @@ const App = () => {
           path={`${path.PRODUCT_DETAILS}/:id`}
           element={<ProductDetails />}
         />
-        <Route path={path.CHECKOUT} element={<Checkout />} />
-        <Route path={path.ORDER_CONFIRMATION} element={<OrderConfirmation />} />
-        <Route path={path.MY_ORDERS} element={<MyOrders />} />
-        <Route path={`${path.ORDER_DETAILS}/:id`} element={<OrderDetails />} />
+      </Route>
+
+      <Route path={path.ADMIN} element={<AdminLayout />}>
+        {/* Admin Layout */}
+        <Route path={path.ADMIN} element={<AdminHomePage />} />
       </Route>
 
       <Route path={path.LOGIN} element={<Login />} />

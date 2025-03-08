@@ -24,10 +24,6 @@ const products = {
       url: "https://balenciaga.dam.kering.com/m/2f66912f0c48ba1b/Small-830878TSS012150_Y.jpg?v=1",
       altText: "Stylish Jacket 3",
     },
-    {
-      url: "https://balenciaga.dam.kering.com/m/6f53ff360bf9772a/Medium-830878TSS012150_D.jpg?v=1",
-      altText: "Stylish Jacket 4",
-    },
   ],
 };
 
