@@ -1,3 +1,6 @@
+import { useNavigate } from "react-router-dom";
+import path from "../utilities/path";
+
 const orders = [
   {
     _id: "12345",
@@ -30,6 +33,12 @@ const orders = [
 ];
 
 const MyOrders = () => {
+  const navigate = useNavigate();
+
+  const handleClick = (orderId) => {
+    navigate(`${path.ORDER_DETAILS}/${orderId}`);
+  };
+
   return (
     <div className="mx-auto max-w-7xl p-4 sm:p-6">
       <h2 className="mb-6 text-xl font-bold sm:text-2xl">My Orders</h2>
@@ -50,6 +59,7 @@ const MyOrders = () => {
             {orders.length > 0 ? (
               orders.map((order) => (
                 <tr
+                  onClick={() => handleClick(order._id)}
                   key={order._id}
                   className="cursor-pointer border-b hover:bg-gray-50"
                 >

@@ -4,10 +4,12 @@ const path = {
   LOGIN: "/login",
   REGISTER: "/register",
   PROFILE: "/profile",
-  COLLECTIONS: "/collections/all",
-  PRODUCT_DETAILS: "/product/:id",
+  COLLECTIONS: "/collections",
+  PRODUCT_DETAILS: "/product",
   CHECKOUT: "/checkout",
   ORDER_CONFIRMATION: "/order-confirmation",
+  MY_ORDERS: "/my-orders",
+  ORDER_DETAILS: "/order",
 };
 
 export default path;

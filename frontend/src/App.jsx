@@ -9,6 +9,8 @@ import Collections from "./pages/Collections";
 import ProductDetails from "./components/Products/ProductDetails";
 import Checkout from "./components/Cart/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
+import MyOrders from "./pages/MyOrders";
+import OrderDetails from "./pages/OrderDetails";
 
 const App = () => {
   return (
@@ -16,10 +18,18 @@ const App = () => {
       <Route path={path.HOME} element={<UserLayout />}>
         <Route path={path.HOME} element={<Home />} />
         <Route path={path.PROFILE} element={<Profile />} />
-        <Route path={path.COLLECTIONS} element={<Collections />} />
-        <Route path={path.PRODUCT_DETAILS} element={<ProductDetails />} />
+        <Route
+          path={`${path.COLLECTIONS}/:collection`}
+          element={<Collections />}
+        />
+        <Route
+          path={`${path.PRODUCT_DETAILS}/:id`}
+          element={<ProductDetails />}
+        />
         <Route path={path.CHECKOUT} element={<Checkout />} />
         <Route path={path.ORDER_CONFIRMATION} element={<OrderConfirmation />} />
+        <Route path={path.MY_ORDERS} element={<MyOrders />} />
+        <Route path={`${path.ORDER_DETAILS}/:id`} element={<OrderDetails />} />
       </Route>
 
       <Route path={path.LOGIN} element={<Login />} />

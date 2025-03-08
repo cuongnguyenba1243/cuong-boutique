@@ -18,28 +18,28 @@ const MobileNav = ({ navDrawerOpen, toggleNavDrawer }) => {
         <h2 className="mb-4 text-xl font-semibold">Menu</h2>
         <nav className="space-y-4">
           <Link
-            to={path.HOME}
+            to={`${path.COLLECTIONS}/all`}
             onClick={toggleNavDrawer}
             className="block text-gray-600 hover:text-black"
           >
             Men
           </Link>
           <Link
-            to={path.HOME}
+            to={`${path.COLLECTIONS}/all`}
             onClick={toggleNavDrawer}
             className="block text-gray-600 hover:text-black"
           >
             Women
           </Link>
           <Link
-            to={path.HOME}
+            to={`${path.COLLECTIONS}/all`}
             onClick={toggleNavDrawer}
             className="block text-gray-600 hover:text-black"
           >
             Top Wear
           </Link>
           <Link
-            to={path.HOME}
+            to={`${path.COLLECTIONS}/all`}
             onClick={toggleNavDrawer}
             className="block text-gray-600 hover:text-black"
           >
