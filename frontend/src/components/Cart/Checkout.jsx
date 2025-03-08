@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import PayPalButton from "./PayPalButton";
+import path from "../../utilities/path";
 
 const cart = {
   products: [
@@ -42,7 +43,7 @@ const Checkout = () => {
 
   const handlePaymentSuccess = (details) => {
     console.log("Payment Successful", details);
-    navigate("/");
+    navigate(path.ORDER_CONFIRMATION);
   };
 
   return (

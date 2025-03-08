@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import Collections from "./pages/Collections";
 import ProductDetails from "./components/Products/ProductDetails";
 import Checkout from "./components/Cart/Checkout";
+import OrderConfirmation from "./pages/OrderConfirmation";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path={path.COLLECTIONS} element={<Collections />} />
         <Route path={path.PRODUCT_DETAILS} element={<ProductDetails />} />
         <Route path={path.CHECKOUT} element={<Checkout />} />
+        <Route path={path.ORDER_CONFIRMATION} element={<OrderConfirmation />} />
       </Route>
 
       <Route path={path.LOGIN} element={<Login />} />

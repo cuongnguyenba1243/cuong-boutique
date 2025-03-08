@@ -14,7 +14,6 @@ const FilterSidebar = () => {
     minPrice: 0,
     maxPrice: 100,
   });
-  const [priceRange, setPriceRange] = useState([0, 100]);
   const categories = ["Top Wear", "Bottom Wear"];
   const genders = ["Men", "Women"];
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
@@ -51,7 +50,6 @@ const FilterSidebar = () => {
       minPrice: params.minPrice || 0,
       maxPrice: params.maxPrice || 100,
     });
-    setPriceRange([0, params.maxPrice || 100]);
   }, [searchParams]);
 
   const handleFilterChange = (e) => {
@@ -84,14 +82,6 @@ const FilterSidebar = () => {
 
     setSearchParams(params);
     navigate(`?${params.toString()}`);
-  };
-
-  const handlePriceChange = (e) => {
-    const newPrice = e.target.value;
-    setPriceRange([0, newPrice]);
-    const newFilters = { ...filters, minPrice: 0, maxPrice: newPrice };
-    setFilters(filters);
-    updateURLParams(newFilters);
   };
 
   return (
@@ -203,26 +193,6 @@ const FilterSidebar = () => {
             <span className="text-gray-700">{brand}</span>
           </div>
         ))}
-      </div>
-
-      {/* Price filter */}
-      <div className="mb-8">
-        <label className="mb-2 block font-medium text-gray-600">
-          Price Range
-        </label>
-        <input
-          type="range"
-          name="priceRange"
-          min={0}
-          max={100}
-          value={priceRange[1]}
-          onChange={handlePriceChange}
-          className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-300"
-        />
-        <div className="mt-2 flex justify-between text-gray-600">
-          <span>$0</span>
-          <span>${priceRange[1]}</span>
-        </div>
       </div>
     </div>
   );
