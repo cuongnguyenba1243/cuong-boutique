@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import path from "../../utilities/path";
 
 const users = [
   {
@@ -141,9 +143,15 @@ const UserManagement = () => {
                   </select>
                 </td>
                 <td className="p-4">
+                  <Link
+                    to={`${path.USER_MANAGEMENT}/${user._id}/edit`}
+                    className="mr-2 rounded bg-yellow-500 px-2 py-1.5 text-white hover:bg-yellow-600"
+                  >
+                    Edit
+                  </Link>
                   <button
                     onClick={() => handleDeleteUser(user._id)}
-                    className="rounded bg-red-500 px-2 py-1 text-white hover:bg-red-600"
+                    className="rounded bg-red-500 px-2 py-1.5 text-white hover:bg-red-600"
                   >
                     Delete
                   </button>

@@ -14,6 +14,10 @@ import OrderDetails from "./pages/OrderDetails";
 import AdminLayout from "./components/Admin/AdminLayout";
 import AdminHomePage from "./components/Admin/AdminHomePage";
 import UserManagement from "./components/Admin/UserManagement";
+import EditUserManagement from "./components/Admin/EditUserManagement";
+import ProductManagement from "./components/Admin/ProductManagement";
+import EditProductManagement from "./components/Admin/EditProductManagement";
+import AddNewProduct from "./components/Admin/AddNewProduct";
 
 const App = () => {
   return (
@@ -40,6 +44,19 @@ const App = () => {
         {/* Admin Layout */}
         <Route path={path.ADMIN} element={<AdminHomePage />} />
         <Route path={path.USER_MANAGEMENT} element={<UserManagement />} />
+        <Route path={path.PRODUCT_MANAGEMENT} element={<ProductManagement />} />
+        <Route
+          path={`${path.USER_MANAGEMENT}/:id/edit`}
+          element={<EditUserManagement />}
+        />
+        <Route
+          path={`${path.PRODUCT_MANAGEMENT}/:id/edit`}
+          element={<EditProductManagement />}
+        />
+        <Route
+          path={`${path.PRODUCT_MANAGEMENT}/:id/new`}
+          element={<AddNewProduct />}
+        />
       </Route>
 
       <Route path={path.LOGIN} element={<Login />} />
