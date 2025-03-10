@@ -25,7 +25,7 @@ const AdminHomePage = () => {
           <h2 className="text-xl font-semibold">Total Order</h2>
           <p className="text-2xl">312</p>
           <Link
-            to={`${path.ADMIN}/orders`}
+            to={`${path.ORDER_MANAGEMENT}`}
             className="text-blue-500 hover:underline"
           >
             Manage Orders
@@ -35,7 +35,7 @@ const AdminHomePage = () => {
           <h2 className="text-xl font-semibold">Total Products</h2>
           <p className="text-2xl">654</p>
           <Link
-            to={`${path.ADMIN}/products`}
+            to={`${path.PRODUCT_MANAGEMENT}`}
             className="text-blue-500 hover:underline"
           >
             Manage Products

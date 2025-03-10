@@ -20,7 +20,7 @@ const AdminSidebar = () => {
         <nav className="mt-6 flex flex-col space-y-2">
           {/* Users management */}
           <NavLink
-            to={`${path.ADMIN}/users`}
+            to={`${path.USER_MANAGEMENT}`}
             className={({ isActive }) =>
               isActive
                 ? "flex items-center space-x-2 rounded bg-gray-700 px-4 py-3 text-white"
@@ -33,7 +33,7 @@ const AdminSidebar = () => {
 
           {/* Products management */}
           <NavLink
-            to={`${path.ADMIN}/products`}
+            to={`${path.PRODUCT_MANAGEMENT}`}
             className={({ isActive }) =>
               isActive
                 ? "flex items-center space-x-2 rounded bg-gray-700 px-4 py-3 text-white"
@@ -46,7 +46,7 @@ const AdminSidebar = () => {
 
           {/* Orders management */}
           <NavLink
-            to={`${path.ADMIN}/orders`}
+            to={`${path.ORDER_MANAGEMENT}`}
             className={({ isActive }) =>
               isActive
                 ? "flex items-center space-x-2 rounded bg-gray-700 px-4 py-3 text-white"

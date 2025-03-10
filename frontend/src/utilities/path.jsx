@@ -11,6 +11,9 @@ const path = {
   MY_ORDERS: "/my-orders",
   ORDER_DETAILS: "/order",
   ADMIN: "/admin",
+  USER_MANAGEMENT: "/admin/users",
+  PRODUCT_MANAGEMENT: "/admin/products",
+  ORDER_MANAGEMENT: "/admin/orders",
 };
 
 export default path;

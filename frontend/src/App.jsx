@@ -13,6 +13,7 @@ import MyOrders from "./pages/MyOrders";
 import OrderDetails from "./pages/OrderDetails";
 import AdminLayout from "./components/Admin/AdminLayout";
 import AdminHomePage from "./components/Admin/AdminHomePage";
+import UserManagement from "./components/Admin/UserManagement";
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
       <Route path={path.ADMIN} element={<AdminLayout />}>
         {/* Admin Layout */}
         <Route path={path.ADMIN} element={<AdminHomePage />} />
+        <Route path={path.USER_MANAGEMENT} element={<UserManagement />} />
       </Route>
 
       <Route path={path.LOGIN} element={<Login />} />
