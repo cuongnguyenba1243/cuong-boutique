@@ -1,5 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import path from "./utilities/path";
+
+// User Layout
 import UserLayout from "./components/Layout/UserLayout";
 import Home from "./Pages/Home";
 import Login from "./pages/Login";
@@ -11,6 +13,8 @@ import Checkout from "./components/Cart/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import MyOrders from "./pages/MyOrders";
 import OrderDetails from "./pages/OrderDetails";
+
+// Admin Layout
 import AdminLayout from "./components/Admin/AdminLayout";
 import AdminHomePage from "./components/Admin/AdminHomePage";
 import UserManagement from "./components/Admin/UserManagement";
@@ -18,6 +22,7 @@ import EditUserManagement from "./components/Admin/EditUserManagement";
 import ProductManagement from "./components/Admin/ProductManagement";
 import EditProductManagement from "./components/Admin/EditProductManagement";
 import AddNewProduct from "./components/Admin/AddNewProduct";
+import OrderManagement from "./components/Admin/OrderManagement";
 
 const App = () => {
   return (
@@ -56,6 +61,10 @@ const App = () => {
         <Route
           path={`${path.PRODUCT_MANAGEMENT}/:id/new`}
           element={<AddNewProduct />}
+        />
+        <Route
+          path={`${path.ORDER_MANAGEMENT}`}
+          element={<OrderManagement />}
         />
       </Route>
 

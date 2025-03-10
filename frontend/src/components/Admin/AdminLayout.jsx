@@ -34,10 +34,7 @@ const AdminLayout = () => {
       <div
         className={`absolute z-20 min-h-screen w-64 transform bg-gray-900 text-white transition-transform duration-300 md:static md:block md:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
-        <AdminSidebar
-          setIsSidebarOpen={setIsSidebarOpen}
-          isSidebarOpen={isSidebarOpen}
-        />
+        <AdminSidebar />
       </div>
 
       {/* Main content */}
