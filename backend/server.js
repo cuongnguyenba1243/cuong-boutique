@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const initRoutes = require("./routes/index");
 
 dotenv.config();
 
@@ -19,6 +20,8 @@ connectDB();
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+initRoutes(app);
 
 app.listen(PORT, HOSTNAME, () => {
   console.log(`Server is running on http://${HOSTNAME}:${PORT}`);
