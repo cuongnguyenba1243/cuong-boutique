@@ -11,8 +11,6 @@ const FilterSidebar = () => {
     size: [],
     material: [],
     brand: [],
-    minPrice: 0,
-    maxPrice: 100,
   });
   const categories = ["Top Wear", "Bottom Wear"];
   const genders = ["Men", "Women"];
@@ -47,8 +45,6 @@ const FilterSidebar = () => {
       size: params.size ? params.size.split(",") : [],
       material: params.material ? params.material.split(",") : [],
       brand: params.brand ? params.brand.split(",") : [],
-      minPrice: params.minPrice || 0,
-      maxPrice: params.maxPrice || 100,
     });
   }, [searchParams]);
 
