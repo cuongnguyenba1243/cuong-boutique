@@ -16,6 +16,12 @@ router.delete("/:id", verifyToken, isAdmin, controllers.deleteProduct);
 //Get All Products By Query
 router.get("/", controllers.getAllProducts);
 
+//Get New Arrivals Product
+router.get("/new-arrivals", controllers.getNewArrivalsProduct);
+
+//Get Best Seller Product
+router.get("/best-seller", controllers.getBestSellerProduct);
+
 //Get An Product
 router.get("/:id", controllers.getProduct);
 

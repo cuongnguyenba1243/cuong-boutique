@@ -228,6 +228,34 @@ const getSimilarProduct = async (req, res) => {
   }
 };
 
+//Get New Arrivals Product
+const getNewArrivalsProduct = async (req, res) => {
+  try {
+    const newArrivals = await Product.find().sort({ createdAt: -1 }).limit(8);
+    if (newArrivals) {
+      return res.status(200).json(newArrivals);
+    } else {
+      res.status(404).json({ message: "No new arrivals product found" });
+    }
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+//Get Best Seller Product
+const getBestSellerProduct = async (req, res) => {
+  try {
+    const bestSeller = await Product.find().sort({ rating: -1 }).limit(8);
+    if (bestSeller) {
+      return res.status(200).json(bestSeller);
+    } else {
+      res.status(404).json({ message: "No best seller product found" });
+    }
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   createProduct,
   updateProduct,
@@ -235,4 +263,6 @@ module.exports = {
   getAllProducts,
   getProduct,
   getSimilarProduct,
+  getNewArrivalsProduct,
+  getBestSellerProduct,
 };
