@@ -16,4 +16,10 @@ router.delete("/:id", verifyToken, isAdmin, controllers.deleteProduct);
 //Get All Products By Query
 router.get("/", controllers.getAllProducts);
 
+//Get An Product
+router.get("/:id", controllers.getProduct);
+
+//Get Similar Product
+router.get("/similar/:id", controllers.getSimilarProduct);
+
 module.exports = router;

@@ -191,9 +191,48 @@ const getAllProducts = async (req, res) => {
   }
 };
 
+//Get An Product
+const getProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    if (product) {
+      return res.status(200).json(product);
+    } else {
+      res.status(404).json({ message: "Product not found" });
+    }
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+//Get Similar Product
+const getSimilarProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    const similarProducts = await Product.find({
+      _id: { $ne: id },
+      gender: product.gender,
+      category: product.category,
+    }).limit(4);
+
+    return res.status(200).json(similarProducts);
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
   getAllProducts,
+  getProduct,
+  getSimilarProduct,
 };
