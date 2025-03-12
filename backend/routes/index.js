@@ -5,6 +5,7 @@ const CheckoutRoutes = require("./CheckoutRoutes");
 const OrderRoutes = require("./OrderRoutes");
 const UploadImageRoutes = require("./UploadImageRoutes");
 const UserAdminRoutes = require("./UserAdminRoutes");
+const OrdersAdminRoutes = require("./OrderAdminRoutes");
 
 const initRoutes = (app) => {
   app.use("/api/users", UserRoutes);
@@ -15,6 +16,7 @@ const initRoutes = (app) => {
   app.use("/api/upload", UploadImageRoutes);
 
   app.use("/api/admin/users", UserAdminRoutes);
+  app.use("/api/admin/orders", OrdersAdminRoutes);
 };
 
 module.exports = initRoutes;
