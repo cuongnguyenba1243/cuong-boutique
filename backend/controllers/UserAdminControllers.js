@@ -3,7 +3,7 @@ const User = require("../models/UserModel");
 //Get all users by admin
 const getAllUsersByAdmin = async (req, res) => {
   try {
-    const users = await User.find({});
+    const users = await User.find();
     return res.status(200).json(users);
   } catch (error) {
     return res.status(500).json({ message: error.message });

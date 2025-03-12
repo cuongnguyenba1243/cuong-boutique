@@ -256,6 +256,19 @@ const getBestSellerProduct = async (req, res) => {
   }
 };
 
+//Get All Products By Admin
+const getProductsByAdmin = async (req, res) => {
+  try {
+    const products = await Product.find();
+    if (!products)
+      return res.status(404).json({ message: "Products not found!" });
+
+    return res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createProduct,
   updateProduct,
@@ -265,4 +278,5 @@ module.exports = {
   getSimilarProduct,
   getNewArrivalsProduct,
   getBestSellerProduct,
+  getProductsByAdmin,
 };
