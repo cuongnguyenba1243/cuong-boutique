@@ -5,15 +5,15 @@ const { verifyToken } = require("../middlewares/auth");
 const router = express.Router();
 
 //Create Cart
-router.post("/", controllers.createCart);
+router.post("/", verifyToken, controllers.createCart);
 
 //Update Cart
-router.put("/", controllers.updateCart);
+router.put("/", verifyToken, controllers.updateCart);
 
 //Delete Cart
-router.delete("/", controllers.deleteCart);
+router.delete("/", verifyToken, controllers.deleteCart);
 
 //Get Cart Details
-router.get("/", controllers.getCartDetails);
+router.get("/", verifyToken, controllers.getCartDetails);
 
 module.exports = router;

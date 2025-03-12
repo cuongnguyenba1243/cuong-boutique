@@ -10,7 +10,6 @@ const createCart = async (req, res) => {
     if (!product) return res.status(404).json({ message: "Product not found" });
 
     let cart = await Cart.findOne({ user: userId });
-    if (!cart) return res.status(404).json({ message: "Cart not found" });
 
     //If the cart exists, update it
     if (cart) {
