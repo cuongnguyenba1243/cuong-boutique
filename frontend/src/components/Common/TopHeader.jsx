@@ -28,7 +28,7 @@ const TopHeader = () => {
         <div className="hidden text-sm md:block">
           {user ? (
             <p className="">
-              Hello, have a good day{" "}
+              Hello{" "}
               <Link to={path.PROFILE} className="underline">
                 {user.name}
               </Link>
