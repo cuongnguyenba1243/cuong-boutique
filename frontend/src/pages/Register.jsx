@@ -2,15 +2,22 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import registerImage from "../assets/register.jpg";
 import path from "../utilities/path";
+import { registerUser } from "../store/slice/authSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Register successfully!", { name, email, password });
+
+    dispatch(registerUser({ name, email, password }));
+    navigate(path.LOGIN);
 
     setEmail("");
     setPassword("");
@@ -26,7 +33,7 @@ const Register = () => {
           className="w-full max-w-md rounded-lg border bg-white p-8 shadow-sm"
         >
           <div className="mb-6 flex justify-center">
-            <h2 className="text-xl font-medium">Rabbit</h2>
+            <h2 className="text-xl font-medium">Cuong Boutique</h2>
           </div>
           <h2 className="mb-6 text-center text-2xl font-bold">Hey there! 👋</h2>
           <p className="mb-6 text-center">

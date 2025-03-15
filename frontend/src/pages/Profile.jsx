@@ -1,9 +1,23 @@
 import MyOrders from "./MyOrders";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../store/slice/authSlice";
+import { useEffect } from "react";
+import path from "../utilities/path";
 
 const Profile = () => {
-  const handleLogout = (e) => {
-    e.preventDefault();
-    console.log("Logged out");
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!user) {
+      navigate(path.LOGIN);
+    }
+  }, [user, navigate]);
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   return (

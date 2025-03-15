@@ -2,15 +2,21 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import loginImage from "../assets/login.jpg";
 import path from "../utilities/path";
+import { loginUser } from "../store/slice/authSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log("Login successfully!", { email, password });
+    dispatch(loginUser({ email, password }));
+    navigate(path.HOME);
 
     setEmail("");
     setPassword("");

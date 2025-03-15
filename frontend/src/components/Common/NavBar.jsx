@@ -6,12 +6,14 @@ import SearchBar from "./SearchBar";
 import { useState } from "react";
 import CartDrawer from "../Layout/CartDrawer";
 import MobileNav from "./MobileNav";
+import { useSelector } from "react-redux";
 
 const { HiOutlineUser, HiOutlineShoppingBag, HiBars3BottomRight } = icons;
 
 const NavBar = () => {
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [navDrawerOpen, setNavDrawerOpen] = useState(false);
+  const { user } = useSelector((state) => state.auth);
 
   const toggleCartDrawer = () => {
     setCartDrawerOpen(!cartDrawerOpen);
@@ -57,16 +59,30 @@ const NavBar = () => {
           >
             Bottom Wear
           </Link>
+          <Link
+            to={`${path.COLLECTIONS}/all`}
+            className="text-sm font-medium uppercase text-gray-700 hover:text-black"
+          >
+            Accessory
+          </Link>
+          <Link
+            to={`${path.COLLECTIONS}/all`}
+            className="text-sm font-medium uppercase text-gray-700 hover:text-black"
+          >
+            Sneaker
+          </Link>
         </div>
 
         {/* Right */}
         <div className="flex items-center space-x-4">
-          <Link
-            to={path.ADMIN}
-            className="black rounded bg-black px-2 text-white"
-          >
-            Admin
-          </Link>
+          {user && user.role === "admin" && (
+            <Link
+              to={path.ADMIN}
+              className="black rounded bg-black px-2 text-white"
+            >
+              Admin
+            </Link>
+          )}
 
           <Link to={path.PROFILE} className="hover:text-black">
             <HiOutlineUser className="h-6 w-6 text-gray-700" />

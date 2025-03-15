@@ -45,6 +45,20 @@ const MobileNav = ({ navDrawerOpen, toggleNavDrawer }) => {
           >
             Bottom Wear
           </Link>
+          <Link
+            to={`${path.COLLECTIONS}/all`}
+            onClick={toggleNavDrawer}
+            className="block text-gray-600 hover:text-black"
+          >
+            Accessory
+          </Link>
+          <Link
+            to={`${path.COLLECTIONS}/all`}
+            onClick={toggleNavDrawer}
+            className="block text-gray-600 hover:text-black"
+          >
+            Sneaker
+          </Link>
         </nav>
       </div>
     </div>

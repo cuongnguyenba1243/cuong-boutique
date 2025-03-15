@@ -1,9 +1,13 @@
 import icons from "../../utilities/icon";
 import path from "../../utilities/path";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const { TbBrandFacebook, IoLogoInstagram, RiTwitterXLine } = icons;
 
 const TopHeader = () => {
+  const { user } = useSelector((state) => state.auth);
+
   return (
     <div className="bg-gray-500 text-white">
       <div className="container mx-auto flex items-center justify-between px-4 py-3">
@@ -22,9 +26,26 @@ const TopHeader = () => {
           <span>We ship worldwide - Fast and reliable shipping!</span>
         </div>
         <div className="hidden text-sm md:block">
-          <a href="tel:+84965922003" className="hover:text-gray-300">
-            (+84) 965922003
-          </a>
+          {user ? (
+            <p className="">
+              Hello{" "}
+              <Link to={path.PROFILE} className="underline">
+                {user.name}
+              </Link>
+            </p>
+          ) : (
+            <div className="flex items-center justify-center gap-4">
+              <Link
+                to={path.LOGIN}
+                className="border-r pr-4 hover:text-gray-200"
+              >
+                Login
+              </Link>
+              <Link to={path.REGISTER} className="hover:text-gray-200">
+                Register
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>
