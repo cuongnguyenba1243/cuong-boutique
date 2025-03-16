@@ -12,20 +12,11 @@ const FilterSidebar = () => {
     material: [],
     brand: [],
   });
-  const categories = ["Top Wear", "Bottom Wear"];
+  const categories = ["Top Wear", "Bottom Wear", "Accessory", "Sneaker"];
   const genders = ["Men", "Women"];
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
   const colors = ["Red", "Blue", "Black", "Green", "Yellow", "White"];
-  const materials = [
-    "Cotton",
-    "Wool",
-    "Denim",
-    "Polyester",
-    "Silk",
-    "Linen",
-    "Viscose",
-    "Fleece",
-  ];
+  const materials = ["Cotton", "Wool", "Polyester", "Silk", "Viscose"];
   const brands = [
     "Balenciaga",
     "Louis Vuitton",
@@ -81,7 +72,7 @@ const FilterSidebar = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="w-[180px] p-4">
       <h3 className="mb-4 text-xl font-medium text-gray-800">Filter</h3>
 
       {/* Category filter */}

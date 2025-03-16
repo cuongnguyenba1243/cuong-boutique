@@ -1,97 +1,31 @@
 import ProductGrid from "../components/Products/ProductGrid";
 import icons from "../utilities/icon";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import FilterSidebar from "../components/Products/FilterSidebar";
 import SortProduct from "../components/Products/SortProduct";
+import { useParams, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductsByFilter } from "../store/slice/productsSlice";
 
 const { FaFilter } = icons;
-
-const products = [
-  {
-    _id: 1,
-    name: "Product 1",
-    price: 100,
-    images: [
-      {
-        url: "https://balenciaga.dam.kering.com/m/3a6498212429c958/Small-772972TOU021000_X.jpg?v=2",
-      },
-    ],
-  },
-  {
-    _id: 2,
-    name: "Product 2",
-    price: 100,
-    images: [
-      {
-        url: "https://balenciaga.dam.kering.com/m/11effbc30bda20eb/Small-814409TKT281000_X.jpg?v=1",
-      },
-    ],
-  },
-  {
-    _id: 3,
-    name: "Product 3",
-    price: 100,
-    images: [
-      {
-        url: "https://balenciaga.dam.kering.com/m/674d3a4fb4462692/Small-826344TSVW39012_X.jpg?v=1",
-      },
-    ],
-  },
-  {
-    _id: 4,
-    name: "Product 4",
-    price: 100,
-    images: [
-      {
-        url: "https://balenciaga.dam.kering.com/m/74b19c49038a5d6d/Small-814149TRLC93001_X.jpg?v=2",
-      },
-    ],
-  },
-  {
-    _id: 5,
-    name: "Product 5",
-    price: 100,
-    images: [
-      {
-        url: "https://balenciaga.dam.kering.com/m/db6cff7a2f1a5b8/Small-826344TSVV66303_X.jpg?v=1",
-      },
-    ],
-  },
-  {
-    _id: 6,
-    name: "Product 6",
-    price: 100,
-    images: [
-      {
-        url: "https://balenciaga.dam.kering.com/m/690267f889b3849e/Small-831305TSVJ81083_X.jpg?v=1",
-      },
-    ],
-  },
-  {
-    _id: 7,
-    name: "Product 7",
-    price: 100,
-    images: [
-      {
-        url: "https://balenciaga.dam.kering.com/m/419d449edc2b7c9/Small-831715TSW714011_X.jpg?v=1",
-      },
-    ],
-  },
-  {
-    _id: 8,
-    name: "Product 8",
-    price: 100,
-    images: [
-      {
-        url: "https://balenciaga.dam.kering.com/m/584353a0c2cae092/Small-831305TSVV95002_X.jpg?v=2",
-      },
-    ],
-  },
-];
 
 const Collections = () => {
   const sidebarRef = useRef(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const { collection } = useParams();
+  const [searchParams] = useSearchParams();
+  const dispatch = useDispatch();
+  const { products, loading, error } = useSelector((state) => state.products);
+  const queryParams = Object.fromEntries([...searchParams]);
+
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchProductsByFilter({ collection, ...queryParams }));
+  }, [dispatch, collection, searchParams]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -105,7 +39,6 @@ const Collections = () => {
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.addEventListener("mousedown", handleClickOutside);
     };
@@ -134,7 +67,7 @@ const Collections = () => {
       <div className="flex-grow p-4">
         <h2 className="mb-4 text-2xl font-medium uppercase">All Collection</h2>
         <SortProduct />
-        <ProductGrid products={products} />
+        <ProductGrid products={products} loading={loading} error={error} />
       </div>
     </div>
   );

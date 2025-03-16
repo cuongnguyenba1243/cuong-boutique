@@ -17,7 +17,7 @@ const Footer = () => {
           <p className="mb-6 text-sm font-medium text-gray-600">
             Sign up and get 10% off your first order
           </p>
-          <form className="flex">
+          <form className="mt-6 flex">
             <input
               type="email"
               required
@@ -39,34 +39,34 @@ const Footer = () => {
           <ul className="space-y-2 text-gray-600">
             <li>
               <Link
-                to={path.HOME}
+                to={`${path.COLLECTIONS}/all?gender=Men`}
                 className="underline-offset-2 transition-colors hover:text-gray-500 hover:underline"
               >
-                Men's Top Wear
+                Men
               </Link>
             </li>
             <li>
               <Link
-                to={path.HOME}
+                to={`${path.COLLECTIONS}/all?gender=Women`}
                 className="underline-offset-2 transition-colors hover:text-gray-500 hover:underline"
               >
-                Men's Bottom Wear
+                Women
               </Link>
             </li>
             <li>
               <Link
-                to={path.HOME}
+                to={`${path.COLLECTIONS}/all?category=Accessory`}
                 className="underline-offset-2 transition-colors hover:text-gray-500 hover:underline"
               >
-                Women's Top Wear
+                Accessory
               </Link>
             </li>
             <li>
               <Link
-                to={path.HOME}
+                to={`${path.COLLECTIONS}/all?category=Sneaker`}
                 className="underline-offset-2 transition-colors hover:text-gray-500 hover:underline"
               >
-                Women's Bottom Wear
+                Sneaker
               </Link>
             </li>
           </ul>

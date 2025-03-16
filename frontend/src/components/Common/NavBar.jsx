@@ -36,37 +36,37 @@ const NavBar = () => {
         {/* Center */}
         <div className="hidden space-x-6 md:flex">
           <Link
-            to={`${path.COLLECTIONS}/all`}
+            to={`${path.COLLECTIONS}/all?gender=Men`}
             className="text-sm font-medium uppercase text-gray-700 hover:text-black"
           >
             Men
           </Link>
           <Link
-            to={`${path.COLLECTIONS}/all`}
+            to={`${path.COLLECTIONS}/all?gender=Women`}
             className="text-sm font-medium uppercase text-gray-700 hover:text-black"
           >
             Women
           </Link>
           <Link
-            to={`${path.COLLECTIONS}/all`}
+            to={`${path.COLLECTIONS}/all?category=Top Wear`}
             className="text-sm font-medium uppercase text-gray-700 hover:text-black"
           >
-            Top Wear
+            Top
           </Link>
           <Link
-            to={`${path.COLLECTIONS}/all`}
+            to={`${path.COLLECTIONS}/all?category=Bottom Wear`}
             className="text-sm font-medium uppercase text-gray-700 hover:text-black"
           >
-            Bottom Wear
+            Bottom
           </Link>
           <Link
-            to={`${path.COLLECTIONS}/all`}
+            to={`${path.COLLECTIONS}/all?category=Accessory`}
             className="text-sm font-medium uppercase text-gray-700 hover:text-black"
           >
             Accessory
           </Link>
           <Link
-            to={`${path.COLLECTIONS}/all`}
+            to={`${path.COLLECTIONS}/all?category=Sneaker`}
             className="text-sm font-medium uppercase text-gray-700 hover:text-black"
           >
             Sneaker

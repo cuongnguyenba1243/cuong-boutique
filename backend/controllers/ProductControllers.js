@@ -231,7 +231,7 @@ const getSimilarProduct = async (req, res) => {
 //Get New Arrivals Product
 const getNewArrivalsProduct = async (req, res) => {
   try {
-    const newArrivals = await Product.find().sort({ createdAt: -1 }).limit(8);
+    const newArrivals = await Product.find().sort({ createdAt: -1 }).limit(4);
     if (newArrivals) {
       return res.status(200).json(newArrivals);
     } else {
@@ -245,7 +245,7 @@ const getNewArrivalsProduct = async (req, res) => {
 //Get Best Seller Product
 const getBestSellerProduct = async (req, res) => {
   try {
-    const bestSeller = await Product.find().sort({ rating: -1 }).limit(8);
+    const bestSeller = await Product.find().sort({ rating: -1 }).limit(4);
     if (bestSeller) {
       return res.status(200).json(bestSeller);
     } else {

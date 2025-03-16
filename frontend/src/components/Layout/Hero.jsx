@@ -22,7 +22,7 @@ const Hero = () => {
             BRAND AMBASSADOR FANCLUB SERIES
           </p>
           <Link
-            to={path.HOME}
+            to={`${path.COLLECTIONS}/all`}
             className="rounded-sm bg-white px-6 py-2 text-lg text-gray-950 hover:bg-gray-200"
           >
             Shop now

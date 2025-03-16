@@ -17,7 +17,7 @@ router.delete("/:id", verifyToken, isAdmin, controllers.deleteProduct);
 router.get("/", controllers.getAllProducts);
 
 //Get All Products By Admin
-router.get("/all", verifyToken, isAdmin, controllers.getProductsByAdmin);
+router.get("/products", verifyToken, isAdmin, controllers.getProductsByAdmin);
 
 //Get New Arrivals Product
 router.get("/new-arrivals", controllers.getNewArrivalsProduct);

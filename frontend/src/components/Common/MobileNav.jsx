@@ -18,42 +18,42 @@ const MobileNav = ({ navDrawerOpen, toggleNavDrawer }) => {
         <h2 className="mb-4 text-xl font-semibold">Menu</h2>
         <nav className="space-y-4">
           <Link
-            to={`${path.COLLECTIONS}/all`}
+            to={`${path.COLLECTIONS}/all?gender=Men`}
             onClick={toggleNavDrawer}
             className="block text-gray-600 hover:text-black"
           >
             Men
           </Link>
           <Link
-            to={`${path.COLLECTIONS}/all`}
+            to={`${path.COLLECTIONS}/all?gender=Women`}
             onClick={toggleNavDrawer}
             className="block text-gray-600 hover:text-black"
           >
             Women
           </Link>
           <Link
-            to={`${path.COLLECTIONS}/all`}
+            to={`${path.COLLECTIONS}/all?category=Top Wear`}
             onClick={toggleNavDrawer}
             className="block text-gray-600 hover:text-black"
           >
             Top Wear
           </Link>
           <Link
-            to={`${path.COLLECTIONS}/all`}
+            to={`${path.COLLECTIONS}/all?category=Bottom Wear`}
             onClick={toggleNavDrawer}
             className="block text-gray-600 hover:text-black"
           >
             Bottom Wear
           </Link>
           <Link
-            to={`${path.COLLECTIONS}/all`}
+            to={`${path.COLLECTIONS}/all?category=Accessory`}
             onClick={toggleNavDrawer}
             className="block text-gray-600 hover:text-black"
           >
             Accessory
           </Link>
           <Link
-            to={`${path.COLLECTIONS}/all`}
+            to={`${path.COLLECTIONS}/all?category=Sneaker`}
             onClick={toggleNavDrawer}
             className="block text-gray-600 hover:text-black"
           >
