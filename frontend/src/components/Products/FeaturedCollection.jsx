@@ -20,7 +20,7 @@ const FeaturedCollection = () => {
             day.
           </p>
           <Link
-            to={`${path.HOME}`}
+            to={`${path.COLLECTIONS}/all`}
             className="rounded-lg bg-black px-6 py-3 text-lg text-white hover:bg-gray-800"
           >
             Shop now
