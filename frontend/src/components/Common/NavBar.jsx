@@ -14,6 +14,7 @@ const NavBar = () => {
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [navDrawerOpen, setNavDrawerOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
 
   const toggleCartDrawer = () => {
     setCartDrawerOpen(!cartDrawerOpen);
@@ -22,6 +23,10 @@ const NavBar = () => {
   const toggleNavDrawer = () => {
     setNavDrawerOpen(!navDrawerOpen);
   };
+
+  const cartItemCount =
+    cart?.products?.reduce((total, product) => total + product.quantity, 0) ||
+    0;
 
   return (
     <>
@@ -93,9 +98,11 @@ const NavBar = () => {
             className="relative hover:text-black"
           >
             <HiOutlineShoppingBag className="h-6 w-6 text-gray-700" />
-            <span className="absolute -top-1.5 rounded-full bg-red-500 px-2 py-1 text-xs text-white">
-              2
-            </span>
+            {cartItemCount > 0 && (
+              <span className="absolute -top-1.5 rounded-full bg-red-500 px-2 py-1 text-xs text-white">
+                {cartItemCount}
+              </span>
+            )}
           </button>
 
           <div className="overflow-hidden">

@@ -33,7 +33,7 @@ const NewArrivals = () => {
       </div>
 
       <div
-        className={`container mx-auto grid grid-cols-2 gap-4 space-x-6 md:grid-cols-4`}
+        className={`container mx-auto grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4`}
       >
         {newArrivals.map((product) => (
           <div

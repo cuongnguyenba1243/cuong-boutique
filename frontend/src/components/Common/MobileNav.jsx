@@ -59,6 +59,13 @@ const MobileNav = ({ navDrawerOpen, toggleNavDrawer }) => {
           >
             Sneaker
           </Link>
+          <Link
+            to={`${path.LOGIN}`}
+            onClick={toggleNavDrawer}
+            className="block text-gray-600 hover:text-black"
+          >
+            Login
+          </Link>
         </nav>
       </div>
     </div>

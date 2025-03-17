@@ -7,6 +7,7 @@ import {
   fetchProductDetails,
   fetchSimilarProducts,
 } from "../../store/slice/productsSlice";
+import { addToCart } from "../../store/slice/cartSlice";
 
 const ProductDetails = () => {
   const [mainImage, setMainImage] = useState();
@@ -20,6 +21,7 @@ const ProductDetails = () => {
   const { selectedProduct, similarProducts, loading, error } = useSelector(
     (state) => state.products,
   );
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (id) {
@@ -45,6 +47,12 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = () => {
+    if (!user) {
+      toast.error("Please sign in to buy this product", {
+        duration: 2000,
+      });
+    }
+
     if (!selectedSize || !selectedColor) {
       toast.error("Please select size and color before add to cart.", {
         duration: 2000,
@@ -54,12 +62,23 @@ const ProductDetails = () => {
 
     setIsButtonDisabled(true);
 
-    setTimeout(() => {
-      toast.success("Product added to cart!", {
-        duration: 1000,
+    dispatch(
+      addToCart({
+        productId: id,
+        quantity,
+        size: selectedSize,
+        color: selectedColor,
+        userId: user?._id,
+      }),
+    )
+      .then(() => {
+        toast.success("Product added to cart!", {
+          duration: 1000,
+        });
+      })
+      .finally(() => {
+        setIsButtonDisabled(false);
       });
-      setIsButtonDisabled(false);
-    }, 500);
   };
 
   if (loading) return <p>Loading...</p>;
