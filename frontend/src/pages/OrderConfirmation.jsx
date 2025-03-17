@@ -1,39 +1,27 @@
-const checkout = {
-  _id: "123456",
-  createdAt: new Date(),
-  checkoutItem: [
-    {
-      productId: "1",
-      name: "Jacket",
-      color: "Black",
-      size: "M",
-      price: 150,
-      quantity: 2,
-      image:
-        "https://balenciaga.dam.kering.com/m/3254d5e6e98e2584/Small-822226TPQ381000_Y.jpg?v=1",
-    },
-    {
-      productId: "2",
-      name: "T-Shirt",
-      color: "Black",
-      size: "M",
-      price: 120,
-      quantity: 1,
-      image:
-        "https://balenciaga.dam.kering.com/m/5a748c4e619f3705/Small-822233TPQ381000_Y.jpg?v=1",
-    },
-  ],
-  shippingAddress: {
-    address: "Mễ Trì",
-    city: "Hà Nội",
-    country: "Việt Nam",
-  },
-};
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { clearCart } from "../store/slice/cartSlice";
+import path from "../utilities/path";
+import moment from "moment";
 
 const OrderConfirmation = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { checkout } = useSelector((state) => state.checkout);
+
+  useEffect(() => {
+    if (checkout && checkout._id) {
+      dispatch(clearCart());
+      localStorage.removeItem("cart");
+    } else {
+      navigate(path.MY_ORDERS);
+    }
+  }, [checkout, dispatch, navigate]);
+
   const calculateEstimatedDelivery = (createdAt) => {
     const orderDate = new Date(createdAt);
-    orderDate.setDate(orderDate.getDate() + 10); //add 10 days to order date
+    orderDate.setDate(orderDate.getDate() + 5);
     return orderDate.toLocaleDateString();
   };
 
@@ -52,7 +40,7 @@ const OrderConfirmation = () => {
                 Order Id: {checkout._id}
               </h2>
               <p className="text-gray-500">
-                Order Date: {new Date(checkout.createdAt).toLocaleDateString()}
+                Order Date: {moment(checkout.createdAt).format("LLLL")}
               </p>
             </div>
             {/* Estimated Delivery */}
@@ -66,7 +54,7 @@ const OrderConfirmation = () => {
 
           {/* Ordered Items */}
           <div className="mb-20">
-            {checkout.checkoutItem.map((item) => (
+            {checkout.checkoutItems.map((item) => (
               <div key={item.productId} className="mb-4 flex items-center">
                 <img
                   src={item.image}
@@ -80,7 +68,7 @@ const OrderConfirmation = () => {
                   </p>
                 </div>
                 <div className="ml-auto text-right">
-                  <p className="text-lg">{item.price}</p>
+                  <p className="text-lg">${item.price}</p>
                   <p className="text-sm text-gray-500">
                     Quantity: {item.quantity}
                   </p>

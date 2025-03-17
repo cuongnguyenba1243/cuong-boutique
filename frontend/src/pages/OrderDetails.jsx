@@ -1,45 +1,22 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import moment from "moment";
 import path from "../utilities/path";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOrderDetails } from "../store/slice/orderSlice";
 
 const OrderDetails = () => {
   const { id } = useParams();
-  const [orderDetails, setOrderDetails] = useState(null);
+  const dispatch = useDispatch();
+  const { orderDetails, loading, error } = useSelector((state) => state.orders);
+  console.log(orderDetails);
 
   useEffect(() => {
-    const mockOrderDetails = {
-      _id: id,
-      createdAt: new Date(),
-      isPaid: true,
-      isDelivery: false,
-      paymentMethod: "PayPal",
-      shippingMethod: "Express",
-      shippingAddress: {
-        city: "Hà Nội",
-        country: "Việt Nam",
-      },
-      orderItems: [
-        {
-          productId: "1321",
-          name: "Jacket",
-          price: 120,
-          quantity: 1,
-          image:
-            "https://balenciaga.dam.kering.com/m/31f094f1e1265a3a/Small-815766TRW841000_Y.jpg?v=2",
-        },
-        {
-          productId: "23213",
-          name: "T-Shirt",
-          price: 150,
-          quantity: 2,
-          image:
-            "https://balenciaga.dam.kering.com/m/28a36fddfb9f5841/Small-813821TRVX28482_Y.jpg?v=1",
-        },
-      ],
-    };
-    setOrderDetails(mockOrderDetails);
-  }, [id]);
+    dispatch(fetchOrderDetails(id));
+  }, [dispatch, id]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="mx-auto max-w-7xl p-6 md:p-4">

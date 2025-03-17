@@ -42,8 +42,6 @@ const Checkout = () => {
         }),
       );
 
-      console.log(response);
-
       if (response.payload && response.payload._id) {
         setCheckoutId(response.payload._id);
       }

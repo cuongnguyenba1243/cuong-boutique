@@ -1,43 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import path from "../utilities/path";
-
-const orders = [
-  {
-    _id: "12345",
-    createdAt: new Date(),
-    shippingAddress: { city: "New York", country: "USA" },
-    orderItems: [
-      {
-        name: "Product 1",
-        image:
-          "https://balenciaga.dam.kering.com/m/db6cff7a2f1a5b8/Small-826344TSVV66303_X.jpg?v=1",
-      },
-    ],
-    totalPrice: 100,
-    isPaid: false,
-  },
-  {
-    _id: "34567",
-    createdAt: new Date(),
-    shippingAddress: { city: "New York", country: "USA" },
-    orderItems: [
-      {
-        name: "Product 1",
-        image:
-          "https://balenciaga.dam.kering.com/m/667fad51312276bd/Small-783397TSVB51041_X.jpg?v=2",
-      },
-    ],
-    totalPrice: 100,
-    isPaid: true,
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchUserOrders } from "../store/slice/orderSlice";
 
 const MyOrders = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { orders, loading, error } = useSelector((state) => state.orders);
+
+  useEffect(() => {
+    dispatch(fetchUserOrders());
+  }, [dispatch]);
 
   const handleClick = (orderId) => {
     navigate(`${path.ORDER_DETAILS}/${orderId}`);
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="mx-auto max-w-7xl p-4 sm:p-6">
