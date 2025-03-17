@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { logout } from "../store/slice/authSlice";
 import { useEffect } from "react";
 import path from "../utilities/path";
+import { clearCart } from "../store/slice/cartSlice";
 
 const Profile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -18,6 +19,8 @@ const Profile = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(clearCart());
+    navigate(path.LOGIN);
   };
 
   return (
@@ -26,8 +29,10 @@ const Profile = () => {
         <div className="flex flex-col space-y-6 md:flex-row md:space-x-6 md:space-y-0">
           {/* Left */}
           <div className="h-full w-full rounded-lg p-6 shadow-md md:w-1/3 lg:w-1/4">
-            <h1 className="mb-4 text-2xl font-bold md:text-3xl">Admin</h1>
-            <p className="mb-4 text-lg text-gray-600">admin@gmail.com</p>
+            <h1 className="mb-4 text-2xl font-bold md:text-3xl">
+              {user?.name}
+            </h1>
+            <p className="mb-4 text-lg text-gray-600">{user?.email}</p>
             <button
               onClick={handleLogout}
               className="w-full rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
