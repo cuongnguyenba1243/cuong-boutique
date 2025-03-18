@@ -45,7 +45,6 @@ export const fetchProductDetails = createAsyncThunk(
       `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,
     );
 
-    console.log(response);
     return response.data;
   },
 );
@@ -57,7 +56,6 @@ export const fetchSimilarProducts = createAsyncThunk(
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/products/similar/${id}`,
     );
-    console.log(response);
 
     return response.data;
   },

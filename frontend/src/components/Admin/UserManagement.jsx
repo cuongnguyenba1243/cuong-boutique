@@ -1,17 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import path from "../../utilities/path";
-
-const users = [
-  {
-    _id: 1321321,
-    name: "mason",
-    email: "mason@gmail.com",
-    role: "admin",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  fetchUsers,
+  updateUser,
+  addUser,
+  deleteUser,
+} from "../../store/slice/adminUserSlice";
 
 const UserManagement = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  const { users, loading, error } = useSelector((state) => state.adminUsers);
+
+  useEffect(() => {
+    if (user && user.role !== "admin") {
+      navigate(path.HOME);
+    }
+  }, [user, navigate]);
+
+  useEffect(() => {
+    if (user && user.role === "admin") {
+      dispatch(fetchUsers());
+    }
+  }, [user, dispatch]);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,7 +44,7 @@ const UserManagement = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    dispatch(addUser(formData));
 
     setFormData({
       name: "",
@@ -39,18 +55,22 @@ const UserManagement = () => {
   };
 
   const handleRoleChange = (userId, newRole) => {
-    console.log({ id: userId, role: newRole });
+    dispatch(updateUser({ id: userId, role: newRole }));
   };
 
   const handleDeleteUser = (userId) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      console.log(`Delete user with ID: ${userId}`);
+    if (
+      window.confirm(`Are you sure you want to delete user with id: ${userId}?`)
+    ) {
+      dispatch(deleteUser(userId));
     }
   };
 
   return (
     <div className="mx-auto max-w-7xl p-6">
       <h2 className="mb-4 text-2xl font-bold">User Management</h2>
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error}</p>}
       {/* Add New User Form*/}
       <div className="mb-6 rounded-lg p-6">
         <h3 className="mb-4 text-lg font-bold">Add New User</h3>
@@ -143,12 +163,6 @@ const UserManagement = () => {
                   </select>
                 </td>
                 <td className="p-4">
-                  <Link
-                    to={`${path.USER_MANAGEMENT}/${user._id}/edit`}
-                    className="mr-2 rounded bg-yellow-500 px-2 py-1.5 text-white hover:bg-yellow-600"
-                  >
-                    Edit
-                  </Link>
                   <button
                     onClick={() => handleDeleteUser(user._id)}
                     className="rounded bg-red-500 px-2 py-1.5 text-white hover:bg-red-600"
