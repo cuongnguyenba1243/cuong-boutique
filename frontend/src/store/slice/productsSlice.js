@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import NewArrivals from "../../components/Products/NewArrivals";
 
 //Async thunk to fetch products by collection and optional filters
 export const fetchProductsByFilter = createAsyncThunk(
@@ -56,6 +57,31 @@ export const fetchSimilarProducts = createAsyncThunk(
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/products/similar/${id}`,
     );
+    console.log(response);
+
+    return response.data;
+  },
+);
+
+//Async thunk to fetch new arrivals products
+export const fetchNewArrivalsProducts = createAsyncThunk(
+  "products/fetchNewArrivalsProducts",
+  async () => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/products/new-arrivals`,
+    );
+
+    return response.data;
+  },
+);
+
+//Async thunk to fetch new arrivals products
+export const fetchBestSellersProducts = createAsyncThunk(
+  "products/fetchBestSellersProducts",
+  async () => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/products/best-seller`,
+    );
 
     return response.data;
   },
@@ -68,6 +94,8 @@ const productsSlice = createSlice({
     products: [],
     selectedProduct: null,
     similarProducts: [],
+    newArrivals: [],
+    bestSellers: [],
     loading: false,
     error: null,
     filters: {
@@ -138,6 +166,32 @@ const productsSlice = createSlice({
         state.similarProducts = action.payload;
       })
       .addCase(fetchSimilarProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      //Fetch new arrivals products
+      .addCase(fetchNewArrivalsProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchNewArrivalsProducts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.newArrivals = action.payload;
+      })
+      .addCase(fetchNewArrivalsProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      //Fetch best sellers products
+      .addCase(fetchBestSellersProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchBestSellersProducts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.bestSellers = action.payload;
+      })
+      .addCase(fetchBestSellersProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

@@ -1,26 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import path from "../../utilities/path";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchNewArrivalsProducts } from "../../store/slice/productsSlice";
 
 const NewArrivals = () => {
-  const [newArrivals, setNewArrivals] = useState([]);
-
-  const fetchNewArrivals = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/products/new-arrivals`,
-      );
-
-      setNewArrivals(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const dispatch = useDispatch();
+  const { newArrivals, loading, error } = useSelector(
+    (state) => state.products,
+  );
 
   useEffect(() => {
-    fetchNewArrivals();
-  }, []);
+    dispatch(fetchNewArrivalsProducts());
+  }, [dispatch]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <section className="px-4 py-16 lg:px-0">

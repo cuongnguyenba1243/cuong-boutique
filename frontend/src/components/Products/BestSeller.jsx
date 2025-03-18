@@ -1,26 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import path from "../../utilities/path";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBestSellersProducts } from "../../store/slice/productsSlice";
 
 const BestSeller = () => {
-  const [bestSeller, setBestSeller] = useState([]);
-
-  const fetchBestSeller = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/products/best-seller`,
-      );
-
-      setBestSeller(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const dispatch = useDispatch();
+  const { bestSellers, loading, error } = useSelector(
+    (state) => state.products,
+  );
 
   useEffect(() => {
-    fetchBestSeller();
-  }, []);
+    dispatch(fetchBestSellersProducts());
+  }, [dispatch]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <section className="px-4 py-16 lg:px-0">
@@ -35,7 +30,7 @@ const BestSeller = () => {
       <div
         className={`container mx-auto grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4`}
       >
-        {bestSeller.map((product) => (
+        {bestSellers.map((product) => (
           <div
             key={product._id}
             className="relative rounded-md border border-gray-200 shadow-md"
