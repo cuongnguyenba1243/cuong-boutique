@@ -42,7 +42,7 @@ const AddNewProduct = () => {
     formData.append("image", file);
 
     try {
-      setUploading(false);
+      setUploading(true);
       const { data } = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/upload`,
         formData,
@@ -294,8 +294,8 @@ const AddNewProduct = () => {
         {/* Image upload */}
         <div className="mb-6">
           <label className="mb-2 block font-semibold">Upload Image</label>
-          {uploading && <p>Uploading image ...</p>}
           <input type="file" onChange={handleImageUpload} />
+          {uploading && <p>Uploading image ...</p>}
           <div className="mt-4 flex gap-4">
             {productData.images.map((image, index) => (
               <div key={index} className="">

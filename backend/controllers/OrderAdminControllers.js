@@ -17,7 +17,7 @@ const updateOrderByAdmin = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-    const order = await Order.findById(id);
+    const order = await Order.findById(id).populate("user", "name");
     if (order) {
       order.status = status || order.status;
       order.isDelivered = status === "Delivered" ? true : order.isDelivered;

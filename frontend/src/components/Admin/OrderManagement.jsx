@@ -1,19 +1,25 @@
-const orders = [
-  {
-    _id: 38217321,
-    user: {
-      name: "Mason",
-    },
-    totalPrice: 190,
-    status: "Processing",
-  },
-];
-
-const handleStatusChange = (orderId, status) => {
-  console.log({ id: orderId, status: status });
-};
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchAllOrders,
+  updateOrderStatus,
+} from "../../store/slice/adminOrderSlice";
 
 const OrderManagement = () => {
+  const dispatch = useDispatch();
+  const { orders, loading, error } = useSelector((state) => state.adminOrders);
+
+  useEffect(() => {
+    dispatch(fetchAllOrders());
+  }, [dispatch]);
+
+  const handleStatusChange = (orderId, status) => {
+    dispatch(updateOrderStatus({ id: orderId, status: status }));
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <div className="mx-auto max-w-7xl p-6">
       <h2 className="mb-6 text-2xl font-bold">Order Management</h2>
@@ -48,7 +54,7 @@ const OrderManagement = () => {
                       }
                       className="block rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
                     >
-                      <option value="Processing">Processing</option>
+                      <option value="Proccessing">Proccessing</option>
                       <option value="Shipped">Shipped</option>
                       <option value="Delivered">Delivered</option>
                       <option value="Cancelled">Cancelled</option>
