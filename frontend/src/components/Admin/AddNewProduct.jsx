@@ -1,19 +1,26 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { createProduct } from "../../store/slice/adminProductSlice";
+import path from "../../utilities/path";
 
 const AddNewProduct = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [productData, setProductData] = useState({
     name: "",
     description: "",
     price: 0,
     countInStock: 0,
     sku: "",
-    category: "top-wear",
+    category: "Top Wear",
     brand: "",
     sizes: [],
     colors: [],
     collections: "",
     material: "",
-    gender: "men",
+    gender: "Men",
     images: [],
   });
 
@@ -31,7 +38,8 @@ const AddNewProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(productData);
+    dispatch(createProduct(productData));
+    navigate(path.PRODUCT_MANAGEMENT);
 
     setProductData({
       name: "",
@@ -39,13 +47,13 @@ const AddNewProduct = () => {
       price: 0,
       countInStock: 0,
       sku: "",
-      category: "top-wear",
+      category: "Top Wear",
       brand: "",
       sizes: [],
       colors: [],
       collections: "",
       material: "",
-      gender: "men",
+      gender: "Men",
       images: [],
     });
   };
@@ -101,6 +109,19 @@ const AddNewProduct = () => {
             type="text"
             name="brand"
             value={productData.brand}
+            onChange={handleChange}
+            className="w-full rounded-md border border-gray-300 p-2"
+            required
+          />
+        </div>
+
+        {/* Collection */}
+        <div className="mb-6">
+          <label className="mb-2 block font-semibold">Collection</label>
+          <input
+            type="text"
+            name="collections"
+            value={productData.collections}
             onChange={handleChange}
             className="w-full rounded-md border border-gray-300 p-2"
             required

@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import path from "../../utilities/path";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   fetchUsers,
   updateUser,
@@ -123,6 +122,7 @@ const UserManagement = () => {
               <option value="admin">Admin</option>
             </select>
           </div>
+
           <button
             type="submit"
             className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600"

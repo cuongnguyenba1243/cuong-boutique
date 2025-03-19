@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import NewArrivals from "../../components/Products/NewArrivals";
 
 //Async thunk to fetch products by collection and optional filters
 export const fetchProductsByFilter = createAsyncThunk(

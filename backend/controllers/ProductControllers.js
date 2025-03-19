@@ -259,7 +259,7 @@ const getBestSellerProduct = async (req, res) => {
 //Get All Products By Admin
 const getProductsByAdmin = async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().sort({ createdAt: -1 });
     if (!products)
       return res.status(404).json({ message: "Products not found!" });
 

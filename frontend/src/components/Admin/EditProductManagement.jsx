@@ -1,6 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { updateProduct } from "../../store/slice/adminProductSlice";
+import { fetchProductDetails } from "../../store/slice/productsSlice";
+import path from "../../utilities/path";
 
 const EditProductManagement = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { selectedProduct, loading, error } = useSelector(
+    (state) => state.products,
+  );
+
   const [productData, setProductData] = useState({
     name: "",
     description: "",
@@ -14,15 +26,18 @@ const EditProductManagement = () => {
     collections: "",
     material: "",
     gender: "",
-    images: [
-      {
-        url: "https://balenciaga.dam.kering.com/m/3195308efece0866/Small-8142974E9B31062_Y.jpg?v=2",
-      },
-      {
-        url: "https://balenciaga.dam.kering.com/m/ba35062a6f8572f/Medium-7932814E2B91081_G.jpg?v=1",
-      },
-    ],
+    images: [],
   });
+
+  useEffect(() => {
+    dispatch(fetchProductDetails({ id }));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (selectedProduct) {
+      setProductData(selectedProduct);
+    }
+  }, [selectedProduct]);
 
   const handleChange = (e) => {
     setProductData((prevData) => ({
@@ -38,8 +53,12 @@ const EditProductManagement = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(productData);
+    dispatch(updateProduct({ id, productData }));
+    navigate(path.PRODUCT_MANAGEMENT);
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="mx-auto max-w-5xl rounded-md p-6 shadow-md">
@@ -105,6 +124,32 @@ const EditProductManagement = () => {
             type="text"
             name="sku"
             value={productData.sku}
+            onChange={handleChange}
+            className="w-full rounded-md border border-gray-300 p-2"
+            required
+          />
+        </div>
+
+        {/* Brand */}
+        <div className="mb-6">
+          <label className="mb-2 block font-semibold">Brand</label>
+          <input
+            type="text"
+            name="brand"
+            value={productData.brand}
+            onChange={handleChange}
+            className="w-full rounded-md border border-gray-300 p-2"
+            required
+          />
+        </div>
+
+        {/* Collection */}
+        <div className="mb-6">
+          <label className="mb-2 block font-semibold">Collection</label>
+          <input
+            type="text"
+            name="collections"
+            value={productData.collections}
             onChange={handleChange}
             className="w-full rounded-md border border-gray-300 p-2"
             required
