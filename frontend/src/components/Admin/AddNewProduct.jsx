@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createProduct } from "../../store/slice/adminProductSlice";
 import path from "../../utilities/path";
+import axios from "axios";
 
 const AddNewProduct = () => {
   const dispatch = useDispatch();
@@ -14,14 +15,16 @@ const AddNewProduct = () => {
     price: 0,
     countInStock: 0,
     sku: "",
-    category: "Top Wear",
+    category: "",
     brand: "",
     sizes: [],
     colors: [],
     collections: "",
     material: "",
-    gender: "Men",
+    gender: "",
     images: [],
+    rating: "",
+    numView: "",
   });
 
   const handleChange = (e) => {
@@ -31,9 +34,32 @@ const AddNewProduct = () => {
     }));
   };
 
+  const [uploading, setUploading] = useState(false);
+
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    console.log(file);
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      setUploading(false);
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/upload`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        },
+      );
+
+      setProductData((prevData) => ({
+        ...prevData,
+        images: [...prevData.images, { url: data.imageURL }],
+      }));
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -47,14 +73,16 @@ const AddNewProduct = () => {
       price: 0,
       countInStock: 0,
       sku: "",
-      category: "Top Wear",
+      category: "",
       brand: "",
       sizes: [],
       colors: [],
       collections: "",
       material: "",
-      gender: "Men",
+      gender: "",
       images: [],
+      rating: "",
+      numView: "",
     });
   };
 
@@ -145,13 +173,13 @@ const AddNewProduct = () => {
         <div className="mb-6">
           <label className="mb-2 block font-semibold">Gender</label>
           <select
-            name="role"
-            value={productData.role}
+            name="gender"
+            value={productData.gender}
             onChange={handleChange}
             className="w-full rounded border p-2"
           >
-            <option value="men">Men</option>
-            <option value="women">Women</option>
+            <option value="Men">Men</option>
+            <option value="Women">Women</option>
           </select>
         </div>
 
@@ -164,8 +192,10 @@ const AddNewProduct = () => {
             onChange={handleChange}
             className="w-full rounded border p-2"
           >
-            <option value="top-wear">Top Wear</option>
-            <option value="bottom-wear">Bottom Wear</option>
+            <option value="Top Wear">Top Wear</option>
+            <option value="Bottom Wear">Bottom Wear</option>
+            <option value="Accessory">Accessory</option>
+            <option value="Sneaker">Sneaker</option>
           </select>
         </div>
 
@@ -235,9 +265,36 @@ const AddNewProduct = () => {
           />
         </div>
 
+        {/* Rating */}
+        <div className="mb-6">
+          <label className="mb-2 block font-semibold">Rating</label>
+          <input
+            type="number"
+            name="rating"
+            value={productData.rating}
+            onChange={handleChange}
+            className="w-full rounded-md border border-gray-300 p-2"
+            required
+          />
+        </div>
+
+        {/* NumView */}
+        <div className="mb-6">
+          <label className="mb-2 block font-semibold">Num View</label>
+          <input
+            type="number"
+            name="numView"
+            value={productData.numView}
+            onChange={handleChange}
+            className="w-full rounded-md border border-gray-300 p-2"
+            required
+          />
+        </div>
+
         {/* Image upload */}
         <div className="mb-6">
           <label className="mb-2 block font-semibold">Upload Image</label>
+          {uploading && <p>Uploading image ...</p>}
           <input type="file" onChange={handleImageUpload} />
           <div className="mt-4 flex gap-4">
             {productData.images.map((image, index) => (

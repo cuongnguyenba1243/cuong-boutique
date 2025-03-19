@@ -58,7 +58,7 @@ export const updateProduct = createAsyncThunk(
 export const deleteProduct = createAsyncThunk(
   "adminProducts/deleteProduct",
   async (id) => {
-    const response = await axios.delete(
+    await axios.delete(
       `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,
       {
         headers: {
@@ -67,7 +67,7 @@ export const deleteProduct = createAsyncThunk(
       },
     );
 
-    return response.data;
+    return id;
   },
 );
 
