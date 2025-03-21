@@ -19,7 +19,7 @@ const BestSeller = () => {
 
   return (
     <section className="px-4 py-16 lg:px-0">
-      <div className="container relative mx-auto mb-10 text-center">
+      <div className="container mx-auto mb-10 text-center">
         <h2 className="mb-4 text-3xl font-bold">Explore Best Sellers</h2>
         <p className="mb-12 text-lg text-gray-600">
           Discover the best-selling styles straight off the runway, freshly

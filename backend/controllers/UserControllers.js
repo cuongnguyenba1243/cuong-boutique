@@ -24,7 +24,7 @@ const register = async (req, res) => {
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
-      { expiresIn: "48h" },
+      { expiresIn: process.env.JWT_EXPIRED },
       (error, token) => {
         if (error) throw error;
 
@@ -65,7 +65,7 @@ const login = async (req, res) => {
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
-      { expiresIn: "48h" },
+      { expiresIn: process.env.JWT_EXPIRED },
       (err, token) => {
         if (err) throw err;
 
@@ -89,6 +89,7 @@ const login = async (req, res) => {
 //User's Profile
 const profile = async (req, res) => {
   res.status(200).json(req.user);
+  console.log(req.user);
 };
 
 module.exports = { register, login, profile };

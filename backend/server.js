@@ -12,13 +12,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 const HOSTNAME = process.env.HOST_NAME;
 
 connectDB();
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Welcome to Cuong Boutique API!");
 });
 
 initRoutes(app);

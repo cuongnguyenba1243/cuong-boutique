@@ -16,7 +16,7 @@ const FilterSidebar = () => {
   const genders = ["Men", "Women"];
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
   const colors = ["Red", "Blue", "Black", "Green", "Yellow", "White"];
-  const materials = ["Cotton", "Wool", "Polyester", "Silk", "Viscose"];
+  const materials = ["Cotton", "Wool", "Polyester", "Silk"];
   const brands = [
     "Balenciaga",
     "Louis Vuitton",

@@ -3,6 +3,7 @@ import path from "../utilities/path";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchUserOrders } from "../store/slice/orderSlice";
+import moment from "moment";
 
 const MyOrders = () => {
   const navigate = useNavigate();
@@ -23,8 +24,8 @@ const MyOrders = () => {
   return (
     <div className="mx-auto max-w-7xl p-4 sm:p-6">
       <h2 className="mb-6 text-xl font-bold sm:text-2xl">My Orders</h2>
-      <div className="relative overflow-hidden shadow-md md:rounded-lg">
-        <table className="min-w-full text-left text-gray-500">
+      <div className="overflow-x-auto shadow-md md:rounded-lg">
+        <table className="min-w-full text-center text-gray-500">
           <thead className="bg-gray-100 text-xs uppercase text-gray-700">
             <tr>
               <td className="px-4 py-2 sm:py-3">Image</td>
@@ -55,8 +56,7 @@ const MyOrders = () => {
                     #{order._id}
                   </td>
                   <td className="px-4 py-4">
-                    {new Date(order.createdAt).toLocaleDateString()}{" "}
-                    {new Date(order.createdAt).toLocaleTimeString()}
+                    {moment(order.createdAt).format("LLL")}
                   </td>
                   <td className="px-4 py-4">
                     {order.shippingAddress
@@ -64,7 +64,7 @@ const MyOrders = () => {
                       : "N/A"}
                   </td>
                   <td className="px-4 py-4">{order.orderItems.length}</td>
-                  <td className="px-4 py-4">{order.totalPrice}</td>
+                  <td className="px-4 py-4">{order.totalPrice.toFixed(2)}</td>
                   <td className="px-4 py-4">
                     <span
                       className={`rounded-full px-2 py-1 text-xs font-medium sm:text-sm ${order.isPaid ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}

@@ -151,7 +151,7 @@ const Footer = () => {
       {/* Footer Bottom */}
       <div className="container mx-auto mt-12 border-t border-gray-200 px-4 pt-6 lg:px-0">
         <p className="text-center text-sm tracking-tighter text-gray-500">
-          &copy; 2025, Cuong Boutique.
+          &copy; {new Date().getFullYear()}, Cuong Boutique.
         </p>
       </div>
     </footer>
