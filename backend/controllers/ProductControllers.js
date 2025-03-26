@@ -128,8 +128,7 @@ const getAllProducts = async (req, res) => {
       category,
       material,
       brand,
-      limit = 8,
-      page = 1,
+      limit,
     } = req.query;
 
     let query = {};
@@ -258,7 +257,7 @@ const getBestSellerProduct = async (req, res) => {
 };
 
 //Get All Products By Admin
-const getProductsByAdmin = async (req, res) => {
+const getProductsByAdminAndPaginate = async (req, res) => {
   try {
     const { page, limit } = req.query;
     const total = await Product.countDocuments({});
@@ -280,6 +279,19 @@ const getProductsByAdmin = async (req, res) => {
   }
 };
 
+//get all products
+const getProductsByAdmin = async (req, res) => {
+  try {
+    const products = await Product.find().sort({ createdAt: -1 });
+    if (!products)
+      return res.status(404).json({ message: "Products not found!" });
+
+    return res.status(200).json({ products });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createProduct,
   updateProduct,
@@ -289,5 +301,6 @@ module.exports = {
   getSimilarProduct,
   getNewArrivalsProduct,
   getBestSellerProduct,
+  getProductsByAdminAndPaginate,
   getProductsByAdmin,
 };

@@ -3,7 +3,7 @@ import path from "../../utilities/path";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
-  fetchAdminProducts,
+  fetchAdminProductsAndPaginate,
   deleteProduct,
   setPage,
 } from "../../store/slice/adminProductSlice";
@@ -17,7 +17,9 @@ const ProductManagement = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchAdminProducts({ page: currentPage + 1, limit: 5 }));
+    dispatch(
+      fetchAdminProductsAndPaginate({ page: currentPage + 1, limit: 5 }),
+    );
   }, [dispatch, currentPage]);
 
   const handlePageChange = (e) => {

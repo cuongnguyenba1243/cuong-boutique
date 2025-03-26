@@ -12,6 +12,10 @@
   scroll-behavior: smooth;
 }
 
+a:hover {
+  color: currentColor;
+}
+
 html {
   font-family: "Poppins", sans-serif;
 }

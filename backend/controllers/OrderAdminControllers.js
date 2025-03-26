@@ -48,8 +48,29 @@ const deleteOrderByAdmin = async (req, res) => {
   }
 };
 
+//Paginate orders
+const ordersPaginate = async (req, res) => {
+  try {
+    const { page, limit } = req.query;
+    const total = await Order.countDocuments({});
+    const orders = await Order.find({})
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .skip((page - 1) * limit);
+
+    return res.status(200).json({
+      orders,
+      currentPage: Number(page),
+      totalPages: Math.ceil(total / limit),
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getAllOrdersByAdmin,
   updateOrderByAdmin,
   deleteOrderByAdmin,
+  ordersPaginate,
 };

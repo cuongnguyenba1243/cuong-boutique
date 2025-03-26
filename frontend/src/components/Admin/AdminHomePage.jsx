@@ -3,13 +3,22 @@ import path from "../../utilities/path";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchAdminProducts } from "../../store/slice/adminProductSlice";
-import { fetchAllOrders } from "../../store/slice/adminOrderSlice";
+import {
+  fetchAllOrders,
+  fetchOrdersPaginate,
+  setPage,
+} from "../../store/slice/adminOrderSlice";
+import ReactPaginate from "react-paginate";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const AdminHomePage = () => {
   const dispatch = useDispatch();
   const {
     orders,
     totalSales,
+    currentPage,
+    totalPages,
+    totalOrders,
     loading: ordersLoading,
     error: ordersError,
   } = useSelector((state) => state.adminOrders);
@@ -25,11 +34,21 @@ const AdminHomePage = () => {
     dispatch(fetchAllOrders());
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(fetchOrdersPaginate({ page: currentPage + 1, limit: 5 }));
+  }, [dispatch, currentPage]);
+
+  const handlePageChange = (e) => {
+    dispatch(setPage(e.selected));
+  };
+
   return (
     <div className="mx-auto max-w-7xl p-6">
       <h1 className="mb-6 text-3xl font-bold">Admin Dashboard</h1>
       {productsLoading || ordersLoading ? (
-        <p>Loading ...</p>
+        <div className="absolute left-1/2 top-1/2 flex items-center justify-center">
+          <ClipLoader />
+        </div>
       ) : productsError ? (
         <p className="text-red-500">Error fetching products: {productsError}</p>
       ) : ordersError ? (
@@ -42,7 +61,7 @@ const AdminHomePage = () => {
           </div>
           <div className="rounded-lg p-4 shadow-md">
             <h2 className="text-xl font-semibold">Total Order</h2>
-            <p className="text-2xl">{orders.length}</p>
+            <p className="text-2xl">{totalOrders}</p>
             <Link
               to={`${path.ORDER_MANAGEMENT}`}
               className="text-blue-500 hover:underline"
@@ -98,6 +117,29 @@ const AdminHomePage = () => {
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div className="mt-6">
+        <ReactPaginate
+          previousLabel="Previous"
+          nextLabel="Next"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          pageCount={totalPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName="pagination"
+          activeClassName="active"
+          forcePage={currentPage}
+        />
       </div>
     </div>
   );

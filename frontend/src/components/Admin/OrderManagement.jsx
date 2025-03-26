@@ -1,23 +1,37 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchAllOrders,
+  fetchOrdersPaginate,
   updateOrderStatus,
+  setPage,
 } from "../../store/slice/adminOrderSlice";
+import ReactPaginate from "react-paginate";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const OrderManagement = () => {
   const dispatch = useDispatch();
-  const { orders, loading, error } = useSelector((state) => state.adminOrders);
+  const { orders, currentPage, totalPages, loading, error } = useSelector(
+    (state) => state.adminOrders,
+  );
 
   useEffect(() => {
-    dispatch(fetchAllOrders());
-  }, [dispatch]);
+    dispatch(fetchOrdersPaginate({ page: currentPage + 1, limit: 5 }));
+  }, [dispatch, currentPage]);
+
+  const handlePageChange = (e) => {
+    dispatch(setPage(e.selected));
+  };
 
   const handleStatusChange = (orderId, status) => {
     dispatch(updateOrderStatus({ id: orderId, status: status }));
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="absolute left-1/2 top-1/2 flex items-center justify-center">
+        <ClipLoader />
+      </div>
+    );
   if (error) return <p>Error: {error}</p>;
 
   return (
@@ -79,6 +93,28 @@ const OrderManagement = () => {
             )}
           </tbody>
         </table>
+      </div>
+      <div className="mt-6">
+        <ReactPaginate
+          previousLabel="Previous"
+          nextLabel="Next"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          pageCount={totalPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName="pagination"
+          activeClassName="active"
+          forcePage={currentPage}
+        />
       </div>
     </div>
   );

@@ -4,9 +4,9 @@ import axios from "axios";
 //Async thunk to fetch admin products
 export const fetchAdminProducts = createAsyncThunk(
   "adminProducts/fetchAdminProducts",
-  async ({ page, limit }) => {
+  async () => {
     const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products/products?page=${page}&limit=${limit}`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/products/products`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
@@ -14,6 +14,25 @@ export const fetchAdminProducts = createAsyncThunk(
       },
     );
 
+    console.log(response.data);
+    return response.data;
+  },
+);
+
+//Async thunk to fetch admin products and paginate
+export const fetchAdminProductsAndPaginate = createAsyncThunk(
+  "adminProducts/fetchAdminProductsAndPaginate",
+  async ({ page, limit }) => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/products/paginate?page=${page}&limit=${limit}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
+      },
+    );
+
+    console.log(response.data);
     return response.data;
   },
 );
@@ -88,7 +107,7 @@ const adminProductSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      //Fetch all products by admin
+      //fetchAdminProducts
       .addCase(fetchAdminProducts.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -96,9 +115,22 @@ const adminProductSlice = createSlice({
       .addCase(fetchAdminProducts.fulfilled, (state, action) => {
         state.loading = false;
         state.products = action.payload.products;
-        state.totalPages = action.payload.totalPages;
       })
       .addCase(fetchAdminProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      //Fetch all products by admin and paginate
+      .addCase(fetchAdminProductsAndPaginate.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAdminProductsAndPaginate.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products = action.payload.products;
+        state.totalPages = action.payload.totalPages;
+      })
+      .addCase(fetchAdminProductsAndPaginate.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })

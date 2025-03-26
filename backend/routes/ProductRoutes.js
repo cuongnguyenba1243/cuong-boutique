@@ -19,6 +19,14 @@ router.get("/", controllers.getAllProducts);
 //Get All Products By Admin
 router.get("/products", verifyToken, isAdmin, controllers.getProductsByAdmin);
 
+//Get All Products By Admin and Paginate
+router.get(
+  "/paginate",
+  verifyToken,
+  isAdmin,
+  controllers.getProductsByAdminAndPaginate
+);
+
 //Get New Arrivals Product
 router.get("/new-arrivals", controllers.getNewArrivalsProduct);
 

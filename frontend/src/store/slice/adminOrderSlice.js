@@ -22,6 +22,27 @@ export const fetchAllOrders = createAsyncThunk(
   },
 );
 
+//Fetch all orders by admin and paginate
+export const fetchOrdersPaginate = createAsyncThunk(
+  "adminOrder/fetchOrdersPaginate",
+  async ({ page, limit }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/paginate?page=${page}&limit=${limit}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        },
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
 //Update order delivery status
 export const updateOrderStatus = createAsyncThunk(
   "adminOrder/updateOrderStatus",
@@ -70,11 +91,18 @@ const adminOrderSlice = createSlice({
   name: "adminOrders",
   initialState: {
     orders: [],
+    currentPage: 0,
+    totalPages: 0,
     totalSales: 0,
+    totalOrders: 0,
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       //Fetch all orders
@@ -85,6 +113,7 @@ const adminOrderSlice = createSlice({
       .addCase(fetchAllOrders.fulfilled, (state, action) => {
         state.loading = false;
         state.orders = action.payload;
+        state.totalOrders = action.payload.length;
 
         const totalSales = action.payload.reduce((acc, order) => {
           return acc + order.totalPrice;
@@ -92,6 +121,20 @@ const adminOrderSlice = createSlice({
         state.totalSales = totalSales;
       })
       .addCase(fetchAllOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      //fetchOrdersPaginate
+      .addCase(fetchOrdersPaginate.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchOrdersPaginate.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orders = action.payload.orders;
+        state.totalPages = action.payload.totalPages;
+      })
+      .addCase(fetchOrdersPaginate.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
@@ -132,5 +175,7 @@ const adminOrderSlice = createSlice({
       });
   },
 });
+
+export const { setPage } = adminOrderSlice.actions;
 
 export default adminOrderSlice.reducer;

@@ -7,6 +7,9 @@ const router = express.Router();
 //Get all orders by admin
 router.get("/", verifyToken, isAdmin, controllers.getAllOrdersByAdmin);
 
+//Orders paginate
+router.get("/paginate", verifyToken, isAdmin, controllers.ordersPaginate);
+
 //Update an order by admin
 router.put("/:id", verifyToken, isAdmin, controllers.updateOrderByAdmin);
 
