@@ -2,18 +2,21 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 //Fetch all user by admin
-export const fetchUsers = createAsyncThunk("admin/fetchUsers", async () => {
-  const response = await axios.get(
-    `${import.meta.env.VITE_BACKEND_URL}/api/admin/users`,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+export const fetchUsers = createAsyncThunk(
+  "admin/fetchUsers",
+  async ({ page, limit }) => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/users?page=${page}&limit=${limit}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
       },
-    },
-  );
+    );
 
-  return response.data;
-});
+    return response.data;
+  },
+);
 
 //Add new user by admin
 export const addUser = createAsyncThunk(
@@ -86,10 +89,16 @@ const adminUserSlice = createSlice({
   name: "admin",
   initialState: {
     users: [],
+    currentPage: 0,
+    totalPages: 0,
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       //Fetch all users
@@ -99,7 +108,8 @@ const adminUserSlice = createSlice({
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.loading = false;
-        state.users = action.payload;
+        state.users = action.payload.users;
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
@@ -135,5 +145,7 @@ const adminUserSlice = createSlice({
       });
   },
 });
+
+export const { setPage } = adminUserSlice.actions;
 
 export default adminUserSlice.reducer;

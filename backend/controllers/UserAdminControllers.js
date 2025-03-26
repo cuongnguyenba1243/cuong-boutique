@@ -3,8 +3,15 @@ const User = require("../models/UserModel");
 //Get all users by admin
 const getAllUsersByAdmin = async (req, res) => {
   try {
-    const users = await User.find();
-    return res.status(200).json(users);
+    const { page, limit } = req.query;
+    const total = await User.countDocuments({});
+    const users = await User.find({})
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+    return res
+      .status(200)
+      .json({ users, currentPage: page, totalPages: Math.ceil(total / limit) });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

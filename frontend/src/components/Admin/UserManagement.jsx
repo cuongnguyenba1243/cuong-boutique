@@ -7,13 +7,18 @@ import {
   updateUser,
   addUser,
   deleteUser,
+  setPage,
 } from "../../store/slice/adminUserSlice";
+import ReactPaginate from "react-paginate";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const UserManagement = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  const { users, loading, error } = useSelector((state) => state.adminUsers);
+  const { users, currentPage, totalPages, loading, error } = useSelector(
+    (state) => state.adminUsers,
+  );
 
   useEffect(() => {
     if (user && user.role !== "admin") {
@@ -23,9 +28,13 @@ const UserManagement = () => {
 
   useEffect(() => {
     if (user && user.role === "admin") {
-      dispatch(fetchUsers());
+      dispatch(fetchUsers({ page: currentPage + 1, limit: 5 }));
     }
-  }, [user, dispatch]);
+  }, [user, dispatch, currentPage]);
+
+  const handlePageChange = (e) => {
+    dispatch(setPage(e.selected));
+  };
 
   const [formData, setFormData] = useState({
     name: "",
@@ -68,7 +77,11 @@ const UserManagement = () => {
   return (
     <div className="mx-auto max-w-7xl p-6">
       <h2 className="mb-4 text-2xl font-bold">User Management</h2>
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <div className="absolute left-1/2 top-1/2 flex items-center justify-center">
+          <ClipLoader />
+        </div>
+      )}
       {error && <p>Error: {error}</p>}
       {/* Add New User Form*/}
       <div className="mb-6 rounded-lg p-6">
@@ -174,6 +187,29 @@ const UserManagement = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="mt-6">
+        <ReactPaginate
+          previousLabel="Previous"
+          nextLabel="Next"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          pageCount={totalPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName="pagination"
+          activeClassName="active"
+          forcePage={currentPage}
+        />
       </div>
     </div>
   );

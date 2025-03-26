@@ -136,7 +136,7 @@ const ProductDetails = () => {
                   `${selectedProduct.originalPrice}`}
               </p>
               <p className="mb-2 text-xl text-gray-500">
-                $ {selectedProduct.price}
+                ${selectedProduct.price}
               </p>
               <p className="mb-4 text-gray-600">
                 {selectedProduct.description}
