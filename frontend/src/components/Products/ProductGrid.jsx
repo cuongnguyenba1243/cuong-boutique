@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
 import path from "../../utilities/path";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const ProductGrid = ({ products, loading, error }) => {
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="absolute left-1/2 top-1/2 flex items-center justify-center">
+        <ClipLoader />
+      </div>
+    );
   if (error) return <p>Error: {error}</p>;
 
   return (

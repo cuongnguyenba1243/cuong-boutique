@@ -128,7 +128,6 @@ const getAllProducts = async (req, res) => {
       category,
       material,
       brand,
-      limit,
     } = req.query;
 
     let query = {};
@@ -181,11 +180,9 @@ const getAllProducts = async (req, res) => {
     }
 
     //Fetch products and apply sorting and pagination
-    let products = await Product.find(query).sort(sort).limit(limit);
+    let products = await Product.find(query).sort(sort);
 
-    return res.status(200).json({
-      products,
-    });
+    return res.status(200).json({ products });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }

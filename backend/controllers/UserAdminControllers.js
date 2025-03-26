@@ -1,4 +1,5 @@
 const User = require("../models/UserModel");
+const bcrypt = require("bcrypt");
 
 //Get all users by admin
 const getAllUsersByAdmin = async (req, res) => {
@@ -28,10 +29,13 @@ const addNewUserByAdmin = async (req, res) => {
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ message: "User already exists" });
 
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     user = new User({
       name,
       email,
-      password,
+      password: hashedPassword,
       role: role || "customer",
     });
 
@@ -48,13 +52,17 @@ const addNewUserByAdmin = async (req, res) => {
 const updateUserByAdmin = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email, role } = req.body;
+    const { name, email, role, password } = req.body;
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await User.findById(id);
     if (user) {
       user.name = name || user.name;
       user.email = email || user.email;
       user.role = role || user.role;
+      user.password = hashedPassword || user.password;
     }
 
     const updatedUser = await user.save();
