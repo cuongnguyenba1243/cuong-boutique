@@ -1,5 +1,6 @@
 const User = require("../models/UserModel");
-const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const { generateAccessToken } = require("../middlewares/jwt");
 
 //Register
 const register = async (req, res) => {
@@ -14,32 +15,20 @@ const register = async (req, res) => {
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ message: "User already exist" });
 
-    user = new User({ name, email, password });
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    user = new User({ name, email, password: hashedPassword });
     await user.save();
 
-    //Create JWT Payload
-    const payload = { user: { id: user._id, role: user.role } };
-
-    //Sign and return the token along with user data
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRED },
-      (error, token) => {
-        if (error) throw error;
-
-        //Send the user and token in response
-        res.status(201).json({
-          user: {
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-          },
-          token,
-        });
-      }
-    );
+    return res.status(201).json({
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
@@ -55,32 +44,22 @@ const login = async (req, res) => {
     let user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: "Invalid Credentials" });
 
-    const isMatch = await user.matchPassword(password);
-    if (!isMatch)
+    const isMatchPassword = await bcrypt.compare(password, user.password);
+    if (!isMatchPassword) {
       return res.status(400).json({ message: "Invalid Credentials" });
+    }
 
-    //Create JWT Payload
-    const payload = { user: { id: user._id, role: user.role } };
-    //Sign and return the token along with user data
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRED },
-      (err, token) => {
-        if (err) throw err;
+    const accessToken = generateAccessToken(user._id, user.role);
 
-        //Send the user and token in response
-        res.status(201).json({
-          user: {
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-          },
-          token,
-        });
-      }
-    );
+    return res.status(201).json({
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+      accessToken,
+    });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
@@ -88,8 +67,7 @@ const login = async (req, res) => {
 
 //User's Profile
 const profile = async (req, res) => {
-  res.status(200).json(req.user);
-  console.log(req.user);
+  return res.status(200).json(req.user);
 };
 
 module.exports = { register, login, profile };

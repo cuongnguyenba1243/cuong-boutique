@@ -145,4 +145,6 @@ const adminProductSlice = createSlice({
   },
 });
 
+export const { setPage } = adminProductSlice.actions;
+
 export default adminProductSlice.reducer;

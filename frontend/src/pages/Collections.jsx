@@ -17,6 +17,7 @@ const Collections = () => {
   const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector((state) => state.products);
+
   const queryParams = Object.fromEntries([...searchParams]);
 
   useLayoutEffect(() => {

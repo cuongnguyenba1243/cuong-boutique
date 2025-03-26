@@ -128,7 +128,8 @@ const getAllProducts = async (req, res) => {
       category,
       material,
       brand,
-      limit,
+      limit = 8,
+      page = 1,
     } = req.query;
 
     let query = {};
@@ -180,12 +181,12 @@ const getAllProducts = async (req, res) => {
       }
     }
 
-    //Fetch products and apply sorting and limit
-    let products = await Product.find(query)
-      .sort(sort)
-      .limit(Number(limit) || 0);
+    //Fetch products and apply sorting and pagination
+    let products = await Product.find(query).sort(sort).limit(limit);
 
-    res.json(products);
+    return res.status(200).json({
+      products,
+    });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
@@ -259,6 +260,10 @@ const getBestSellerProduct = async (req, res) => {
 //Get All Products By Admin
 const getProductsByAdmin = async (req, res) => {
   try {
+    const { page = 1, limit = 8 } = req.query;
+    const total = await Product.countDocuments({});
+    console.log(total);
+
     const products = await Product.find().sort({ createdAt: -1 });
     if (!products)
       return res.status(404).json({ message: "Products not found!" });

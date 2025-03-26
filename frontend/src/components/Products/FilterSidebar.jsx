@@ -29,6 +29,7 @@ const FilterSidebar = () => {
 
   useEffect(() => {
     const params = Object.fromEntries([...searchParams]);
+
     setFilters({
       category: params.category || "",
       gender: params.gender || "",
