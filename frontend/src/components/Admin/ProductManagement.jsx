@@ -5,17 +5,24 @@ import { useEffect } from "react";
 import {
   fetchAdminProducts,
   deleteProduct,
+  setPage,
 } from "../../store/slice/adminProductSlice";
+import ReactPaginate from "react-paginate";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const ProductManagement = () => {
   const dispatch = useDispatch();
-  const { products, loading, error } = useSelector(
+  const { products, currentPage, totalPages, loading, error } = useSelector(
     (state) => state.adminProducts,
   );
 
   useEffect(() => {
-    dispatch(fetchAdminProducts());
-  }, [dispatch]);
+    dispatch(fetchAdminProducts({ page: currentPage + 1, limit: 5 }));
+  }, [dispatch, currentPage]);
+
+  const handlePageChange = (e) => {
+    dispatch(setPage(e.selected));
+  };
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
@@ -23,7 +30,12 @@ const ProductManagement = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="absolute left-1/2 top-1/2 flex items-center justify-center">
+        <ClipLoader />
+      </div>
+    );
   if (error) return <p>Error: {error}</p>;
 
   return (
@@ -84,6 +96,28 @@ const ProductManagement = () => {
             )}
           </tbody>
         </table>
+      </div>
+      <div className="mt-6">
+        <ReactPaginate
+          previousLabel="Previous"
+          nextLabel="Next"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          pageCount={totalPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName="pagination"
+          activeClassName="active"
+          forcePage={currentPage}
+        />
       </div>
     </div>
   );

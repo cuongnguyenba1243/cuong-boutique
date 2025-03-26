@@ -4,9 +4,9 @@ import axios from "axios";
 //Async thunk to fetch admin products
 export const fetchAdminProducts = createAsyncThunk(
   "adminProducts/fetchAdminProducts",
-  async () => {
+  async ({ page, limit }) => {
     const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products/products`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/products/products?page=${page}&limit=${limit}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
@@ -76,10 +76,16 @@ const adminProductSlice = createSlice({
   name: "adminProducts",
   initialState: {
     products: [],
+    currentPage: 0,
+    totalPages: 0,
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       //Fetch all products by admin
@@ -89,7 +95,8 @@ const adminProductSlice = createSlice({
       })
       .addCase(fetchAdminProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.products = action.payload;
+        state.products = action.payload.products;
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(fetchAdminProducts.rejected, (state, action) => {
         state.loading = false;

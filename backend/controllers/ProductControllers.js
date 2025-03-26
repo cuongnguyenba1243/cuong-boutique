@@ -260,15 +260,21 @@ const getBestSellerProduct = async (req, res) => {
 //Get All Products By Admin
 const getProductsByAdmin = async (req, res) => {
   try {
-    const { page = 1, limit = 8 } = req.query;
+    const { page, limit } = req.query;
     const total = await Product.countDocuments({});
-    console.log(total);
 
-    const products = await Product.find().sort({ createdAt: -1 });
+    const products = await Product.find()
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
     if (!products)
       return res.status(404).json({ message: "Products not found!" });
 
-    return res.status(200).json(products);
+    return res.status(200).json({
+      products,
+      currentPage: Number(page),
+      totalPages: Math.ceil(total / limit),
+    });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
