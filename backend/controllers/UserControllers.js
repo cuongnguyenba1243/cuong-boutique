@@ -1,6 +1,8 @@
 const User = require("../models/UserModel");
 const bcrypt = require("bcrypt");
 const { generateAccessToken } = require("../middlewares/jwt");
+const { v4 } = require("uuid");
+const ms = require("ms");
 
 //Register
 const register = async (req, res) => {
@@ -18,7 +20,12 @@ const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    user = new User({ name, email, password: hashedPassword });
+    user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      verifyToken: v4(),
+    });
     await user.save();
 
     return res.status(201).json({
@@ -27,6 +34,7 @@ const register = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        verifyToken: user.verifyToken,
       },
     });
   } catch (error) {
@@ -44,12 +52,29 @@ const login = async (req, res) => {
     let user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: "Invalid Credentials" });
 
+    if (!user.isActive) {
+      return res.status(400).json({
+        message: "Your account is not active! Please check your email!",
+      });
+    }
+
     const isMatchPassword = await bcrypt.compare(password, user.password);
     if (!isMatchPassword) {
       return res.status(400).json({ message: "Invalid Credentials" });
     }
 
-    const token = generateAccessToken(user._id, user.role);
+    const accessToken = generateAccessToken(user._id, user.role);
+    const refreshToken = generateAccessToken(user._id, user.role);
+
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: ms("14 days"),
+    };
+
+    res.cookie("accessToken", accessToken, cookieOptions);
+    res.cookie("refreshToken", refreshToken, cookieOptions);
 
     return res.status(201).json({
       user: {
@@ -58,7 +83,8 @@ const login = async (req, res) => {
         email: user.email,
         role: user.role,
       },
-      token,
+      accessToken,
+      refreshToken,
     });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });

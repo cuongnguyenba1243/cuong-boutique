@@ -2,24 +2,27 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/UserModel");
 
 const verifyToken = async (req, res, next) => {
-  let token;
+  // let token;
+  const accessToken = req.cookies?.accessToken;
 
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    try {
-      token = req.headers.authorization.split(" ")[1];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  if (!accessToken) {
+    return res.status(403).json({ message: "UNAUTHORIZED!" });
+  }
 
-      req.user = await User.findById(decoded.user.id).select("-password");
+  try {
+    const decoded = jwt.verify(accessToken, process.env.ACCESS_JWT_SECRET);
 
-      next();
-    } catch (error) {
-      return res.status(500).json({ success: false, message: error.message });
+    req.user = decoded;
+
+    console.log(req.user);
+
+    next();
+  } catch (error) {
+    if (error?.message?.includes("jwt expired")) {
+      return res.status(400).json({ message: "Token expired" });
     }
-  } else {
-    res.status(401).json({ message: "AUTHORIZATION REQUIRED!" });
+
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
