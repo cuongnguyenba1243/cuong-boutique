@@ -14,7 +14,7 @@ router.post("/login", controllers.login);
 router.get("/profile", verifyToken, controllers.profile);
 
 //Verify account
-router.put("/verify", controllers.verifyAccount);
+router.post("/verify", controllers.verifyAccount);
 
 //Logout
 router.delete("/logout", controllers.logout);

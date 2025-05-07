@@ -13,6 +13,7 @@ import Checkout from "./components/Cart/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import MyOrders from "./pages/MyOrders";
 import OrderDetails from "./pages/OrderDetails";
+import AccountVerification from "./pages/AccountVerification";
 
 // Admin Layout
 import AdminLayout from "./components/Admin/AdminLayout";
@@ -65,6 +66,7 @@ const App = () => {
 
       <Route path={path.LOGIN} element={<Login />} />
       <Route path={path.REGISTER} element={<Register />} />
+      <Route path={`account/verification`} element={<AccountVerification />} />
     </Routes>
   );
 };

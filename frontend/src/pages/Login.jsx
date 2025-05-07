@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import loginImage from "../assets/login.jpg";
 import path from "../utilities/path";
 import { loginUser } from "../store/slice/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -11,15 +11,18 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     dispatch(loginUser({ email, password }));
-    navigate(path.HOME);
+    if (isLoggedIn) {
+      navigate(path.HOME);
 
-    setEmail("");
-    setPassword("");
+      setEmail("");
+      setPassword("");
+    }
   };
 
   return (

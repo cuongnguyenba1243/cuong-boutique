@@ -11,6 +11,10 @@ export const loginUser = createAsyncThunk(
       userData,
     );
 
+    if (response.data.success) {
+      toast.success(response.data.message);
+    }
+
     return response.data.user;
   },
 );
@@ -23,6 +27,10 @@ export const registerUser = createAsyncThunk(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/register`,
       userData,
     );
+
+    if (response.data.success) {
+      toast.success(response.data.message);
+    }
 
     return response.data.user;
   },
@@ -40,11 +48,28 @@ export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
   return response.data;
 });
 
+export const verifyAccount = createAsyncThunk(
+  "auth/verifyAccount",
+  async ({ email, token }) => {
+    const response = await authorizeAxiosInstance.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/verify`,
+      { email, token },
+    );
+
+    if (response.data) {
+      toast.success(response.data.message);
+    }
+
+    return response.data;
+  },
+);
+
 //Slice
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
+    isLoggedIn: false,
     loading: false,
     error: null,
   },
@@ -55,13 +80,16 @@ const authSlice = createSlice({
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.isLoggedIn = false;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
+        state.isLoggedIn = true;
         state.user = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
+        state.isLoggedIn = false;
         state.error = action.error.message;
       })
       //Register
@@ -88,6 +116,18 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.error.message;
+      })
+      //Verify account
+      .addCase(verifyAccount.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(verifyAccount.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(verifyAccount.rejected, (state, action) => {
+        state.loading = true;
         state.error = action.error.message;
       });
   },

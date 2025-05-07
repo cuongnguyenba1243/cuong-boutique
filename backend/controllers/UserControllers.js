@@ -41,6 +41,8 @@ const register = async (req, res) => {
     await sendEmail.send(user.email, costomSubject, htmlContent);
 
     return res.status(201).json({
+      success: true,
+      message: "Registration successfully. Please check your email!",
       user: {
         _id: user._id,
         name: user.name,
@@ -59,13 +61,19 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password)
-      return res.status(401).json({ message: "Missing inputs" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Missing inputs" });
 
     let user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "Invalid Credentials" });
+    if (!user)
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid Credentials" });
 
     if (!user.isActive) {
       return res.status(400).json({
+        success: false,
         message: "Your account is not active! Please check your email!",
       });
     }
@@ -89,6 +97,8 @@ const login = async (req, res) => {
     res.cookie("refreshToken", refreshToken, cookieOptions);
 
     return res.status(201).json({
+      success: true,
+      message: "Logged in successfully",
       user: {
         _id: user._id,
         name: user.name,
@@ -108,6 +118,7 @@ const verifyAccount = async (req, res) => {
   try {
     const { email, token } = req.body;
     const user = await User.findOne({ email });
+
     if (!user) {
       return res.status(404).json({ message: "Account not found" });
     }

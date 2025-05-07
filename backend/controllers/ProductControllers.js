@@ -39,7 +39,7 @@ const createProduct = async (req, res) => {
       sku,
       rating,
       numView,
-      user: req.user.user.id,
+      user: req.user.user,
     });
 
     const createdProduct = await product.save();

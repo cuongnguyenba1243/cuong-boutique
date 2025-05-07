@@ -3,8 +3,10 @@ const Order = require("../models/OrderModel");
 //Get all orders by admin
 const getAllOrdersByAdmin = async (req, res) => {
   try {
-    const orders = await Order.find().populate("user", "name email");
+    const orders = await Order.find({}).populate("user", "name email");
     if (!orders) return res.status(404).json({ message: "Orders not found" });
+
+    console.log(orders);
 
     return res.status(200).json(orders);
   } catch (error) {
