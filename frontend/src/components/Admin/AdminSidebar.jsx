@@ -1,7 +1,7 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import icons from "../../utilities/icon";
 import path from "../../utilities/path";
-import { logout } from "../../store/slice/authSlice";
+import { loginUser } from "../../store/slice/authSlice";
 import { useDispatch } from "react-redux";
 
 const { FaBoxOpen, FaClipboardList, FaStore, FaSignOutAlt, FaUser } = icons;
@@ -10,7 +10,7 @@ const AdminSidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(loginUser());
     navigate(path.LOGIN);
   };
 

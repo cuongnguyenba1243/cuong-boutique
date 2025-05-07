@@ -133,9 +133,22 @@ const verifyAccount = async (req, res) => {
   }
 };
 
+//Logout
+const logout = async (req, res) => {
+  try {
+    //
+    res.clearCookie(accessToken);
+    res.clearCookie(refreshToken);
+
+    return res.status(200).json({ message: "Logged out!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 //User's Profile
 const profile = async (req, res) => {
   return res.status(200).json(req.user);
 };
 
-module.exports = { register, login, profile, verifyAccount };
+module.exports = { register, login, profile, verifyAccount, logout };

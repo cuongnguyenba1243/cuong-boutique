@@ -1,66 +1,49 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// Retrieve user info and token from localStorage if available
-const userFromStorage = localStorage.getItem("userInfo")
-  ? JSON.parse(localStorage.getItem("userInfo"))
-  : null;
-
 //Async thunk for user login
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
-  async (userData, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/login`,
-        userData,
-      );
+  async (userData) => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/login`,
+      userData,
+    );
 
-      localStorage.setItem("userInfo", JSON.stringify(response.data.user));
-      localStorage.setItem("userToken", response.data.token);
-
-      return response.data.user;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+    return response.data.user;
   },
 );
 
 //Async thunk for user registration
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
-  async (userData, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/register`,
-        userData,
-      );
+  async (userData) => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/register`,
+      userData,
+    );
 
-      localStorage.setItem("userInfo", JSON.stringify(response.data.user));
-      localStorage.setItem("userToken", response.data.token);
-
-      return response.data.user;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+    return response.data.user;
   },
 );
+
+export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
+  const response = await axios.delete(
+    `${import.meta.env.VITE_BACKEND_URL}/api/users/logout`,
+  );
+
+  return response.data;
+});
 
 //Slice
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: userFromStorage,
+    user: null,
     loading: false,
     error: null,
   },
-  reducers: {
-    logout: (state) => {
-      state.user = null;
-      localStorage.removeItem("userInfo");
-      localStorage.removeItem("userToken");
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       //Login
@@ -88,9 +71,21 @@ const authSlice = createSlice({
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+      //Logout
+      .addCase(logoutUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.loading = false;
+        state.user = null;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
   },
 });
 
-export const { logout } = authSlice.actions;
 export default authSlice.reducer;

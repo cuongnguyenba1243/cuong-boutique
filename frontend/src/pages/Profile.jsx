@@ -1,10 +1,10 @@
 import MyOrders from "./MyOrders";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../store/slice/authSlice";
 import { useEffect } from "react";
 import path from "../utilities/path";
 import { clearCart } from "../store/slice/cartSlice";
+import { logoutUser } from "../store/slice/authSlice";
 
 const Profile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -18,7 +18,7 @@ const Profile = () => {
   }, [user, navigate]);
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logoutUser());
     dispatch(clearCart());
     navigate(path.LOGIN);
   };
