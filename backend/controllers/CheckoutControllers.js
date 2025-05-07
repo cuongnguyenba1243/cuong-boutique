@@ -6,7 +6,8 @@ const Order = require("../models/OrderModel");
 //Create Checkout Session
 const createCheckout = async (req, res) => {
   try {
-    const { _id } = req.user;
+    const { _id } = req.user.user;
+
     const { checkoutItems, shippingAddress, paymentMethod, totalPrice } =
       req.body;
 
@@ -26,7 +27,7 @@ const createCheckout = async (req, res) => {
 
     return res.status(200).json(newCheckout);
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -53,7 +54,7 @@ const updateCheckout = async (req, res) => {
       return res.status(400).json({ message: "Invalid Payment Status" });
     }
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -86,14 +87,14 @@ const finalizeCheckout = async (req, res) => {
 
       //Delete the cart associated with the user
       await Cart.findOneAndDelete({ user: checkout.user });
-      res.status(201).json(finalOrder);
+      return res.status(201).json(finalOrder);
     } else if (checkout.isFinalized) {
       return res.status(400).json({ message: "Checkout already finalized" });
     } else {
       return res.status(400).json({ message: "Checkout is not paid" });
     }
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 

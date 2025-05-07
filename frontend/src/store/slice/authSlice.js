@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import authorizeAxiosInstance from "../../utilities/authorizeAxios";
 
 //Async thunk for user login
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (userData) => {
-    const response = await axios.post(
+    const response = await authorizeAxiosInstance.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/login`,
       userData,
     );
@@ -18,7 +18,7 @@ export const loginUser = createAsyncThunk(
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (userData) => {
-    const response = await axios.post(
+    const response = await authorizeAxiosInstance.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/register`,
       userData,
     );
@@ -28,7 +28,7 @@ export const registerUser = createAsyncThunk(
 );
 
 export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
-  const response = await axios.delete(
+  const response = await authorizeAxiosInstance.delete(
     `${import.meta.env.VITE_BACKEND_URL}/api/users/logout`,
   );
 

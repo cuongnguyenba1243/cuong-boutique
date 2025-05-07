@@ -3,7 +3,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createProduct } from "../../store/slice/adminProductSlice";
 import path from "../../utilities/path";
-import axios from "axios";
+// import axios from "axios";
+import authorizeAxiosInstance from "../../utilities/authorizeAxios";
 
 const AddNewProduct = () => {
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ const AddNewProduct = () => {
 
     try {
       setUploading(true);
-      const { data } = await axios.post(
+      const { data } = await authorizeAxiosInstance.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/upload`,
         formData,
         {

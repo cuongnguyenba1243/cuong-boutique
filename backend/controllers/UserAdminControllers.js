@@ -10,6 +10,7 @@ const getAllUsersByAdmin = async (req, res) => {
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
+
     return res
       .status(200)
       .json({ users, currentPage: page, totalPages: Math.ceil(total / limit) });

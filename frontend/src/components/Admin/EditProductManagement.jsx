@@ -4,7 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { updateProduct } from "../../store/slice/adminProductSlice";
 import { fetchProductDetails } from "../../store/slice/productsSlice";
 import path from "../../utilities/path";
-import axios from "axios";
+// import axios from "axios";
+import authorizeAxiosInstance from "../../utilities/authorizeAxios";
 
 const EditProductManagement = () => {
   const dispatch = useDispatch();
@@ -58,7 +59,7 @@ const EditProductManagement = () => {
 
     try {
       setUploading(true);
-      const { data } = await axios.post(
+      const { data } = await authorizeAxiosInstance.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/upload`,
         formData,
         {

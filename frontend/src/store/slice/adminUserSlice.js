@@ -1,17 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import authorizeAxiosInstance from "../../utilities/authorizeAxios";
 
 //Fetch all user by admin
 export const fetchUsers = createAsyncThunk(
   "admin/fetchUsers",
   async ({ page, limit }) => {
-    const response = await axios.get(
+    const response = await authorizeAxiosInstance.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/admin/users?page=${page}&limit=${limit}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-        },
-      },
     );
 
     return response.data;
@@ -21,67 +16,37 @@ export const fetchUsers = createAsyncThunk(
 //Add new user by admin
 export const addUser = createAsyncThunk(
   "admin/addUser",
-  async ({ name, email, password, role }, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/admin/users`,
-        { name, email, password, role },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
-        },
-      );
+  async ({ name, email, password, role }) => {
+    const response = await authorizeAxiosInstance.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/users`,
+      { name, email, password, role },
+    );
 
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+    return response.data;
   },
 );
 
 //Update user info by admin
 export const updateUser = createAsyncThunk(
   "admin/updateUser",
-  async ({ id, name, email, role, password }, { rejectWithValue }) => {
-    try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,
-        { name, email, role, password },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
-        },
-      );
+  async ({ id, name, email, role, password }) => {
+    const response = await authorizeAxiosInstance.put(
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,
+      { name, email, role, password },
+    );
 
-      return response.data.updatedUser;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+    return response.data.updatedUser;
   },
 );
 
 //Delete user by admin
-export const deleteUser = createAsyncThunk(
-  "admin/deleteUser",
-  async (id, { rejectWithValue }) => {
-    try {
-      await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
-        },
-      );
+export const deleteUser = createAsyncThunk("admin/deleteUser", async (id) => {
+  await authorizeAxiosInstance.delete(
+    `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,
+  );
 
-      return id;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+  return id;
+});
 
 //Slice
 const adminUserSlice = createSlice({

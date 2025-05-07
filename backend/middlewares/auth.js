@@ -12,6 +12,8 @@ const verifyToken = async (req, res, next) => {
 
     req.user = decoded;
 
+    console.log(req.user);
+
     next();
   } catch (error) {
     if (error?.message?.includes("jwt expired")) {
@@ -23,7 +25,7 @@ const verifyToken = async (req, res, next) => {
 };
 
 const isAdmin = (req, res, next) => {
-  if (req.user && req.user.role === "admin") {
+  if (req.user && req.user.user.role === "admin") {
     next();
   } else {
     return res

@@ -52,7 +52,7 @@ const productSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
-      enum: ["Men", "Women"],
+      required: true,
     },
     images: [
       {
@@ -76,7 +76,6 @@ const productSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
   },
   { timestamps: true }

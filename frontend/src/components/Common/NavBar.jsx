@@ -89,10 +89,6 @@ const NavBar = () => {
             </Link>
           )}
 
-          <Link to={path.PROFILE} className="hover:text-black">
-            <HiOutlineUser className="h-6 w-6 text-gray-700" />
-          </Link>
-
           <button
             onClick={toggleCartDrawer}
             className="relative hover:text-black"

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import authorizeAxiosInstance from "../../utilities/authorizeAxios";
 
 //Async thunk to fetch products by collection and optional filters
 export const fetchProductsByFilter = createAsyncThunk(
@@ -30,11 +30,9 @@ export const fetchProductsByFilter = createAsyncThunk(
     if (limit) query.append("limit", limit);
     if (page) query.append("page", page);
 
-    const response = await axios.get(
+    const response = await authorizeAxiosInstance.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/products?${query.toString()}`,
     );
-
-    console.log(response.data);
 
     return response.data;
   },
@@ -44,7 +42,7 @@ export const fetchProductsByFilter = createAsyncThunk(
 export const fetchProductDetails = createAsyncThunk(
   "products/fetchProductDetails",
   async ({ id }) => {
-    const response = await axios.get(
+    const response = await authorizeAxiosInstance.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,
     );
 
@@ -56,7 +54,7 @@ export const fetchProductDetails = createAsyncThunk(
 export const fetchSimilarProducts = createAsyncThunk(
   "products/fetchSimilarProducts",
   async ({ id }) => {
-    const response = await axios.get(
+    const response = await authorizeAxiosInstance.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/products/similar/${id}`,
     );
 
@@ -68,7 +66,7 @@ export const fetchSimilarProducts = createAsyncThunk(
 export const fetchNewArrivalsProducts = createAsyncThunk(
   "products/fetchNewArrivalsProducts",
   async () => {
-    const response = await axios.get(
+    const response = await authorizeAxiosInstance.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/products/new-arrivals`,
     );
 
@@ -80,7 +78,7 @@ export const fetchNewArrivalsProducts = createAsyncThunk(
 export const fetchBestSellersProducts = createAsyncThunk(
   "products/fetchBestSellersProducts",
   async () => {
-    const response = await axios.get(
+    const response = await authorizeAxiosInstance.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/products/best-seller`,
     );
 

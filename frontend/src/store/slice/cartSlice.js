@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import authorizeAxiosInstance from "../../utilities/authorizeAxios";
 
 //Helper function to load cart from localStorage
 const loadCartFromStorage = () => {
@@ -15,99 +15,83 @@ const saveCartToStorage = (cart) => {
 //Fetch cart
 export const fetchCart = createAsyncThunk(
   "cart/fetchCart",
-  async ({ userId }, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
-        { params: { userId } },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
+  async ({ userId }) => {
+    const response = await authorizeAxiosInstance.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
+      { params: { userId } },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
-      );
+      },
+    );
 
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+    return response.data;
   },
 );
 
 //Add an item to the cart
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
-  async ({ productId, quantity, size, color, userId }, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
-        {
-          productId,
-          quantity,
-          size,
-          color,
-          userId,
+  async ({ productId, quantity, size, color, userId }) => {
+    const response = await authorizeAxiosInstance.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
+      {
+        productId,
+        quantity,
+        size,
+        color,
+        userId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
-        },
-      );
+      },
+    );
 
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+    return response.data;
   },
 );
 
 //Update the quantity of an item in the cart
 export const updateCartItemQuantity = createAsyncThunk(
   "cart/updateCartItemQuantity",
-  async ({ productId, quantity, size, color, userId }, { rejectWithValue }) => {
-    try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
-        {
-          productId,
-          quantity,
-          size,
-          color,
-          userId,
+  async ({ productId, quantity, size, color, userId }) => {
+    const response = await authorizeAxiosInstance.put(
+      `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
+      {
+        productId,
+        quantity,
+        size,
+        color,
+        userId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
-        },
-      );
+      },
+    );
 
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+    return response.data;
   },
 );
 
 //Remove an item from the cart
 export const removeFromCart = createAsyncThunk(
   "cart/removeFromCart",
-  async ({ productId, size, color, userId }, { rejectWithValue }) => {
-    try {
-      const response = await axios({
-        method: "DELETE",
-        url: `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
-        data: { productId, userId, size, color },
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-        },
-      });
+  async ({ productId, size, color, userId }) => {
+    const response = await authorizeAxiosInstance({
+      method: "DELETE",
+      url: `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
+      data: { productId, userId, size, color },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    });
 
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+    return response.data;
   },
 );
 

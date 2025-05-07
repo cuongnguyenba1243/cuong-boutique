@@ -39,11 +39,11 @@ const createProduct = async (req, res) => {
       sku,
       rating,
       numView,
-      user: req.user,
+      user: req.user.user.id,
     });
 
     const createdProduct = await product.save();
-    res.status(201).json(createdProduct);
+    return res.status(201).json(createdProduct);
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }

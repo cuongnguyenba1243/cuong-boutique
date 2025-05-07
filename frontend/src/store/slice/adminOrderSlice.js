@@ -1,88 +1,67 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import authorizeAxiosInstance from "../../utilities/authorizeAxios";
 
 //Fetch all orders by admin
 export const fetchAllOrders = createAsyncThunk(
   "adminOrder/fetchAllOrders",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
-        },
-      );
+  async () => {
+    const response = await authorizeAxiosInstance.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders`,
+    );
 
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+    return response.data;
   },
 );
 
 //Fetch all orders by admin and paginate
 export const fetchOrdersPaginate = createAsyncThunk(
   "adminOrder/fetchOrdersPaginate",
-  async ({ page, limit }, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/paginate?page=${page}&limit=${limit}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
+  async ({ page, limit }) => {
+    const response = await authorizeAxiosInstance.get(
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/paginate?page=${page}&limit=${limit}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
-      );
+      },
+    );
 
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+    return response.data;
   },
 );
 
 //Update order delivery status
 export const updateOrderStatus = createAsyncThunk(
   "adminOrder/updateOrderStatus",
-  async ({ id, status }, { rejectWithValue }) => {
-    try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
-        { status },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
+  async ({ id, status }) => {
+    const response = await authorizeAxiosInstance.put(
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
+      { status },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
-      );
+      },
+    );
 
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+    return response.data;
   },
 );
 
 //Delete an order
 export const deleteOrder = createAsyncThunk(
   "adminOrder/deleteOrder",
-  async ({ id }, { rejectWithValue }) => {
-    try {
-      await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
+  async ({ id }) => {
+    await authorizeAxiosInstance.delete(
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
-      );
+      },
+    );
 
-      return id;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
+    return id;
   },
 );
 

@@ -3,8 +3,13 @@ import { useState, useEffect } from "react";
 import PayPalButton from "./PayPalButton";
 import path from "../../utilities/path";
 import { useDispatch, useSelector } from "react-redux";
-import { createCheckout } from "../../store/slice/checkoutSlice";
-import axios from "axios";
+import {
+  createCheckout,
+  handlePaymentSuccess,
+  handleFinalizeCheckout,
+} from "../../store/slice/checkoutSlice";
+// import axios from "axios";
+import authorizeAxiosInstance from "../../utilities/authorizeAxios";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -50,14 +55,9 @@ const Checkout = () => {
 
   const handlePaymentSuccess = async (details) => {
     try {
-      await axios.put(
+      await authorizeAxiosInstance.put(
         `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/pay`,
         { paymentStatus: "paid", paymentDetails: details },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
-        },
       );
 
       await handleFinalizeCheckout(checkoutId);
@@ -68,14 +68,8 @@ const Checkout = () => {
 
   const handleFinalizeCheckout = async (checkoutId) => {
     try {
-      await axios.post(
+      await authorizeAxiosInstance.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/finalize`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
-        },
       );
 
       navigate(path.ORDER_CONFIRMATION);
