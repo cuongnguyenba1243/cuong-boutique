@@ -13,4 +13,7 @@ router.post("/login", controllers.login);
 //Get logged-in user's profile
 router.get("/profile", verifyToken, controllers.profile);
 
+//Verify account
+router.put("/verify", controllers.verifyAccount);
+
 module.exports = router;

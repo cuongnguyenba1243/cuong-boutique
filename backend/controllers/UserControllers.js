@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const { generateAccessToken } = require("../middlewares/jwt");
 const { v4 } = require("uuid");
 const ms = require("ms");
+const sendEmail = require("../utils/sendEmail");
 
 //Register
 const register = async (req, res) => {
@@ -27,6 +28,17 @@ const register = async (req, res) => {
       verifyToken: v4(),
     });
     await user.save();
+
+    //Send email
+    const verificationLink = `http://localhost:5173/account/verification?email=${user.email}&token=${user.verifyToken}`;
+    const costomSubject = "Please verify your email before using our service";
+    const htmlContent = `
+      <h3>Here is your verification link</h3>
+      <h3>${verificationLink}</h3>
+      <h3>Sincerely, <br/> - Cuong Boutique - </h3>
+    `;
+
+    await sendEmail.send(user.email, costomSubject, htmlContent);
 
     return res.status(201).json({
       user: {
@@ -91,9 +103,39 @@ const login = async (req, res) => {
   }
 };
 
+//Verify account
+const verifyAccount = async (req, res) => {
+  try {
+    const { email, token } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "Account not found" });
+    }
+    if (user.isActive) {
+      return res
+        .status(400)
+        .json({ message: "Your account is already active!" });
+    }
+    if (token !== user.verifyToken) {
+      return res.status(400).json({ message: "Invalid Token!" });
+    }
+
+    user.isActive = true;
+    user.verifyToken = null;
+
+    await user.save();
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Verify account successfully!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 //User's Profile
 const profile = async (req, res) => {
   return res.status(200).json(req.user);
 };
 
-module.exports = { register, login, profile };
+module.exports = { register, login, profile, verifyAccount };

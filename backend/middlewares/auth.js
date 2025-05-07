@@ -1,8 +1,6 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/UserModel");
 
 const verifyToken = async (req, res, next) => {
-  // let token;
   const accessToken = req.cookies?.accessToken;
 
   if (!accessToken) {
@@ -13,8 +11,6 @@ const verifyToken = async (req, res, next) => {
     const decoded = jwt.verify(accessToken, process.env.ACCESS_JWT_SECRET);
 
     req.user = decoded;
-
-    console.log(req.user);
 
     next();
   } catch (error) {
@@ -30,7 +26,9 @@ const isAdmin = (req, res, next) => {
   if (req.user && req.user.role === "admin") {
     next();
   } else {
-    res.status(403).json({ success: false, message: "REQUIRE ADMIN ROLE!" });
+    return res
+      .status(403)
+      .json({ success: false, message: "REQUIRE ADMIN ROLE!" });
   }
 };
 
