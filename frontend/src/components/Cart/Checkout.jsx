@@ -3,12 +3,7 @@ import { useState, useEffect } from "react";
 import PayPalButton from "./PayPalButton";
 import path from "../../utilities/path";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createCheckout,
-  handlePaymentSuccess,
-  handleFinalizeCheckout,
-} from "../../store/slice/checkoutSlice";
-// import axios from "axios";
+import { createCheckout } from "../../store/slice/checkoutSlice";
 import authorizeAxiosInstance from "../../utilities/authorizeAxios";
 
 const Checkout = () => {

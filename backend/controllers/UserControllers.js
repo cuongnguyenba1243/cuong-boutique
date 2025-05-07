@@ -137,10 +137,10 @@ const verifyAccount = async (req, res) => {
 const logout = async (req, res) => {
   try {
     //
-    res.clearCookie(accessToken);
-    res.clearCookie(refreshToken);
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
 
-    return res.status(200).json({ message: "Logged out!" });
+    return res.status(200).json({ success: true, message: "Logged out!" });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }

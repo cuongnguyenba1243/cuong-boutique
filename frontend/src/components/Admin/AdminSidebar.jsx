@@ -3,7 +3,6 @@ import icons from "../../utilities/icon";
 import path from "../../utilities/path";
 import { loginUser } from "../../store/slice/authSlice";
 import { useDispatch } from "react-redux";
-
 const { FaBoxOpen, FaClipboardList, FaStore, FaSignOutAlt, FaUser } = icons;
 
 const AdminSidebar = () => {

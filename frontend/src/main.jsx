@@ -6,11 +6,19 @@ import { Toaster } from "sonner";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
 
+//config redux-persist
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+const persistor = persistStore(store);
+
 createRoot(document.getElementById("root")).render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <Toaster position="top-right" />
-      <App />
-    </BrowserRouter>
-  </Provider>,
+  <BrowserRouter>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <Toaster position="top-right" />
+        <App />
+      </PersistGate>
+    </Provider>
+    ,
+  </BrowserRouter>,
 );
