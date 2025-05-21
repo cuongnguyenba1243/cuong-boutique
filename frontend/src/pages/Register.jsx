@@ -1,27 +1,46 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import registerImage from "../assets/register.jpg";
 import path from "../utilities/path";
 import { registerUser } from "../store/slice/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import {
+  FIELD_REQUIRED_MESSAGE,
+  EMAIL_RULE,
+  EMAIL_RULE_MESSAGE,
+  PASSWORD_RULE,
+  PASSWORD_RULE_MESSAGE,
+} from "../utilities/validators";
+import FieldErrorAlert from "../components/Form/FieldErrorAlert";
 
 const Register = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleRegister = (data) => {
+    const { name, email, password } = data;
 
-    dispatch(registerUser({ name, email, password }));
-    navigate(path.LOGIN);
-
-    setEmail("");
-    setPassword("");
-    setName("");
+    toast
+      .promise(dispatch(registerUser({ name, email, password })), {
+        pending: "Loading...",
+      })
+      .then((res) => {
+        if (!res.error) {
+          reset();
+          navigate(path.LOGIN);
+          toast.success(
+            "Registration successfully! Please check yout email to verify",
+          );
+        }
+      });
   };
 
   return (
@@ -29,7 +48,7 @@ const Register = () => {
       {/* Left  */}
       <div className="flex w-full flex-col items-center justify-center p-8 md:w-1/2 md:p-12">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(handleRegister)}
           className="w-full max-w-md rounded-lg border bg-white p-8 shadow-sm"
         >
           <div className="mb-6 flex justify-center">
@@ -43,31 +62,45 @@ const Register = () => {
             <label className="mb-2 block text-sm font-semibold">Name</label>
             <input
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              {...register("name", {
+                required: FIELD_REQUIRED_MESSAGE,
+              })}
               className="w-full rounded border p-2"
               placeholder="Enter your name"
             />
+            <FieldErrorAlert errors={errors} fieldName={"name"} />
           </div>
           <div className="mb-4">
             <label className="mb-2 block text-sm font-semibold">Email</label>
             <input
               type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register("email", {
+                required: FIELD_REQUIRED_MESSAGE,
+                pattern: {
+                  value: EMAIL_RULE,
+                  message: EMAIL_RULE_MESSAGE,
+                },
+              })}
               className="w-full rounded border p-2"
               placeholder="Enter your email address"
             />
+            <FieldErrorAlert errors={errors} fieldName={"email"} />
           </div>
           <div className="mb-4">
             <label className="mb-2 block text-sm font-semibold">Password</label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password", {
+                required: FIELD_REQUIRED_MESSAGE,
+                pattern: {
+                  value: PASSWORD_RULE,
+                  message: PASSWORD_RULE_MESSAGE,
+                },
+              })}
               className="w-full rounded border p-2"
               placeholder="Enter your password"
             />
+            <FieldErrorAlert errors={errors} fieldName={"password"} />
           </div>
           <button
             type=""

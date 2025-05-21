@@ -6,8 +6,6 @@ const getAllOrdersByAdmin = async (req, res) => {
     const orders = await Order.find({}).populate("user", "name email");
     if (!orders) return res.status(404).json({ message: "Orders not found" });
 
-    console.log(orders);
-
     return res.status(200).json(orders);
   } catch (error) {
     return res.status(500).json({ message: error.message });
