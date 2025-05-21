@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import ProductGrid from "./ProductGrid";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -62,22 +62,24 @@ const ProductDetails = () => {
 
     setIsButtonDisabled(true);
 
-    dispatch(
-      addToCart({
-        productId: id,
-        quantity,
-        size: selectedSize,
-        color: selectedColor,
-        userId: user?._id,
-      }),
-    )
-      .then(() => {
-        toast.success("Product added to cart!", {
-          duration: 1000,
-        });
-      })
-      .finally(() => {
-        setIsButtonDisabled(false);
+    toast
+      .promise(
+        dispatch(
+          addToCart({
+            productId: id,
+            quantity,
+            size: selectedSize,
+            color: selectedColor,
+            userId: user?._id,
+          }),
+        ),
+        { pending: "Loading..." },
+      )
+      .then((res) => {
+        if (!res.error) {
+          toast.success("Product added to cart!");
+          setIsButtonDisabled(false);
+        }
       });
   };
 

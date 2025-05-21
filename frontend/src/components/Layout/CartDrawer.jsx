@@ -15,7 +15,7 @@ const CartDrawer = ({ cartDrawerOpen, toggleCartDrawer }) => {
   const handleCheckout = () => {
     toggleCartDrawer();
     if (!user) {
-      navigate("/login?redirect=checkout");
+      navigate(path.LOGIN);
     } else {
       navigate(path.CHECKOUT);
     }

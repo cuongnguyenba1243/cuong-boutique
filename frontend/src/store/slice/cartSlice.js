@@ -1,17 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authorizeAxiosInstance from "../../utilities/authorizeAxios";
 
-//Helper function to load cart from localStorage
-const loadCartFromStorage = () => {
-  const storedCart = localStorage.getItem("cart");
-  return storedCart ? JSON.parse(storedCart) : { products: [] };
-};
-
-//Helper function to save cart to localStorage
-const saveCartToStorage = (cart) => {
-  localStorage.setItem("cart", JSON.stringify(cart));
-};
-
 //Fetch cart
 export const fetchCart = createAsyncThunk(
   "cart/fetchCart",
@@ -19,11 +8,6 @@ export const fetchCart = createAsyncThunk(
     const response = await authorizeAxiosInstance.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
       { params: { userId } },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-        },
-      },
     );
 
     return response.data;
@@ -42,11 +26,6 @@ export const addToCart = createAsyncThunk(
         size,
         color,
         userId,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-        },
       },
     );
 
@@ -67,11 +46,6 @@ export const updateCartItemQuantity = createAsyncThunk(
         color,
         userId,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-        },
-      },
     );
 
     return response.data;
@@ -86,9 +60,6 @@ export const removeFromCart = createAsyncThunk(
       method: "DELETE",
       url: `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
       data: { productId, userId, size, color },
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-      },
     });
 
     return response.data;
@@ -99,14 +70,13 @@ export const removeFromCart = createAsyncThunk(
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
-    cart: loadCartFromStorage(),
+    cart: null,
     loading: false,
     error: null,
   },
   reducers: {
     clearCart: (state) => {
-      state.cart = { products: [] };
-      localStorage.removeItem("cart");
+      state.cart = { products: null };
     },
   },
   extraReducers: (builder) => {
@@ -119,7 +89,6 @@ const cartSlice = createSlice({
       .addCase(fetchCart.fulfilled, (state, action) => {
         state.loading = false;
         state.cart = action.payload;
-        saveCartToStorage(action.payload);
       })
       .addCase(fetchCart.rejected, (state, action) => {
         state.loading = false;
@@ -133,7 +102,6 @@ const cartSlice = createSlice({
       .addCase(addToCart.fulfilled, (state, action) => {
         state.loading = false;
         state.cart = action.payload;
-        saveCartToStorage(action.payload);
       })
       .addCase(addToCart.rejected, (state, action) => {
         state.loading = false;
@@ -147,7 +115,6 @@ const cartSlice = createSlice({
       .addCase(updateCartItemQuantity.fulfilled, (state, action) => {
         state.loading = false;
         state.cart = action.payload;
-        saveCartToStorage(action.payload);
       })
       .addCase(updateCartItemQuantity.rejected, (state, action) => {
         state.loading = false;
@@ -161,7 +128,6 @@ const cartSlice = createSlice({
       .addCase(removeFromCart.fulfilled, (state, action) => {
         state.loading = false;
         state.cart = action.payload;
-        saveCartToStorage(action.payload);
       })
       .addCase(removeFromCart.rejected, (state, action) => {
         state.loading = false;
