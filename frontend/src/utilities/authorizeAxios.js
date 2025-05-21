@@ -1,5 +1,6 @@
 import axios from "axios";
-import { toast } from "sonner";
+
+import { toast } from "react-toastify";
 
 //Khởi tạo 1 đối tượng Axios (authorizeAxiosInstance) mục đích để custom và cấu hình chung cho dự án
 let authorizeAxiosInstance = axios.create();

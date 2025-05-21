@@ -1,28 +1,45 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import loginImage from "../assets/login.jpg";
 import path from "../utilities/path";
 import { loginUser } from "../store/slice/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import {
+  FIELD_REQUIRED_MESSAGE,
+  EMAIL_RULE,
+  EMAIL_RULE_MESSAGE,
+  PASSWORD_RULE,
+  PASSWORD_RULE_MESSAGE,
+} from "../utilities/validators";
+import FieldErrorAlert from "../components/Form/FieldErrorAlert";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoggedIn } = useSelector((state) => state.auth);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const {
+    register,
+    reset,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
 
-    dispatch(loginUser({ email, password }));
-    if (isLoggedIn) {
-      navigate(path.HOME);
+  const handleLogin = (data) => {
+    const { email, password } = data;
 
-      setEmail("");
-      setPassword("");
-    }
+    toast
+      .promise(dispatch(loginUser({ email, password })), {
+        pending: "Loading...",
+      })
+      .then((res) => {
+        if (!res.error) {
+          navigate(path.HOME);
+          toast.success("Logged in successfully!");
+          reset();
+        }
+      });
   };
 
   return (
@@ -30,7 +47,7 @@ const Login = () => {
       {/* Left */}
       <div className="flex w-full flex-col items-center justify-center p-8 md:w-1/2 md:p-12">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(handleLogin)}
           className="w-full max-w-md rounded-lg border bg-white p-8 shadow-sm"
         >
           <div className="mb-6 flex justify-center">
@@ -44,21 +61,33 @@ const Login = () => {
             <label className="mb-2 block text-sm font-semibold">Email</label>
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register("email", {
+                required: FIELD_REQUIRED_MESSAGE,
+                pattern: {
+                  value: EMAIL_RULE,
+                  message: EMAIL_RULE_MESSAGE,
+                },
+              })}
               className="w-full rounded border p-2"
               placeholder="Enter your email address"
             />
+            <FieldErrorAlert errors={errors} fieldName={"email"} />
           </div>
           <div className="mb-4">
             <label className="mb-2 block text-sm font-semibold">Password</label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password", {
+                required: FIELD_REQUIRED_MESSAGE,
+                pattern: {
+                  value: PASSWORD_RULE,
+                  message: PASSWORD_RULE_MESSAGE,
+                },
+              })}
               className="w-full rounded border p-2"
               placeholder="Enter your password"
             />
+            <FieldErrorAlert errors={errors} fieldName={"password"} />
           </div>
           <button
             type="submit"

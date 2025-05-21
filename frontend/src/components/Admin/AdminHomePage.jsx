@@ -23,8 +23,6 @@ const AdminHomePage = () => {
     error: ordersError,
   } = useSelector((state) => state.adminOrders);
 
-  console.log({ orders });
-
   const {
     products,
     loading: productsLoading,

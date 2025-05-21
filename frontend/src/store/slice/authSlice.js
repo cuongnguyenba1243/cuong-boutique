@@ -69,7 +69,6 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
-    isLoggedIn: false,
     loading: false,
     error: null,
   },
@@ -80,16 +79,13 @@ const authSlice = createSlice({
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
-        state.isLoggedIn = false;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.isLoggedIn = true;
         state.user = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.isLoggedIn = false;
         state.error = action.error.message;
       })
       //Register
