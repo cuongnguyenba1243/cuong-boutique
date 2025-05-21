@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { verifyAccount } from "../store/slice/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const AccountVerification = () => {
   const dipatch = useDispatch();
@@ -13,7 +14,17 @@ const AccountVerification = () => {
   //Gọi API để verify tài khoản
   useEffect(() => {
     if (email && token) {
-      dipatch(verifyAccount({ email, token }));
+      toast
+        .promise(dipatch(verifyAccount({ email, token })), {
+          pending: "Loading...",
+        })
+        .then((res) => {
+          if (!res.error) {
+            toast.success(
+              "Verification successfully! Please login to enjoy our service!",
+            );
+          }
+        });
     }
   }, [email, token]);
 
