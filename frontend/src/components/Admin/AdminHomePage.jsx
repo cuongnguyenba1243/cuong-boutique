@@ -23,6 +23,8 @@ const AdminHomePage = () => {
     error: ordersError,
   } = useSelector((state) => state.adminOrders);
 
+  console.log(orders);
+
   const {
     products,
     loading: productsLoading,
@@ -102,7 +104,7 @@ const AdminHomePage = () => {
                     className="cursor-pointer border-b hover:bg-gray-50"
                   >
                     <td className="p-4">{order._id}</td>
-                    <td className="p-4">{order.user?.name}</td>
+                    <td className="p-4">{order?.user?.name}</td>
                     <td className="p-4">${order.totalPrice}</td>
                     <td className="p-4">{order.status}</td>
                   </tr>

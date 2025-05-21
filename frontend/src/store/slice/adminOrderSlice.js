@@ -19,11 +19,6 @@ export const fetchOrdersPaginate = createAsyncThunk(
   async ({ page, limit }) => {
     const response = await authorizeAxiosInstance.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/paginate?page=${page}&limit=${limit}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-        },
-      },
     );
 
     return response.data;
@@ -37,11 +32,6 @@ export const updateOrderStatus = createAsyncThunk(
     const response = await authorizeAxiosInstance.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
       { status },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-        },
-      },
     );
 
     return response.data;
@@ -54,11 +44,6 @@ export const deleteOrder = createAsyncThunk(
   async ({ id }) => {
     await authorizeAxiosInstance.delete(
       `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-        },
-      },
     );
 
     return id;

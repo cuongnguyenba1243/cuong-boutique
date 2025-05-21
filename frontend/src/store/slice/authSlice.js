@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authorizeAxiosInstance from "../../utilities/authorizeAxios";
-import { toast } from "sonner";
 
 //Async thunk for user login
 export const loginUser = createAsyncThunk(
@@ -10,10 +9,6 @@ export const loginUser = createAsyncThunk(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/login`,
       userData,
     );
-
-    if (response.data.success) {
-      toast.success(response.data.message);
-    }
 
     return response.data.user;
   },
@@ -28,10 +23,6 @@ export const registerUser = createAsyncThunk(
       userData,
     );
 
-    if (response.data.success) {
-      toast.success(response.data.message);
-    }
-
     return response.data.user;
   },
 );
@@ -40,10 +31,6 @@ export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
   const response = await authorizeAxiosInstance.delete(
     `${import.meta.env.VITE_BACKEND_URL}/api/users/logout`,
   );
-
-  if (response.data.success) {
-    toast.success(response.data.message);
-  }
 
   return response.data;
 });
@@ -55,10 +42,6 @@ export const verifyAccount = createAsyncThunk(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/verify`,
       { email, token },
     );
-
-    if (response.data) {
-      toast.success(response.data.message);
-    }
 
     return response.data;
   },

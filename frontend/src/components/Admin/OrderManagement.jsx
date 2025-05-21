@@ -58,7 +58,7 @@ const OrderManagement = () => {
                   <td className="whitespace-nowrap px-4 py-4 font-medium text-gray-900">
                     #{order._id}
                   </td>
-                  <td className="p-4">{order.user.name}</td>
+                  <td className="p-4">{order.user}</td>
                   <td className="p-4">${order.totalPrice}</td>
                   <td className="p-4">
                     <select

@@ -3,7 +3,7 @@ const Order = require("../models/OrderModel");
 //Get logged-in user's order
 const getUserOrders = async (req, res) => {
   try {
-    const { _id } = req.user;
+    const { _id } = req.user.user;
 
     const orders = await Order.find({ user: _id }).sort({
       //Sort by most recent orders
