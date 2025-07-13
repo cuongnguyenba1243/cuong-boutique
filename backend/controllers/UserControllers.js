@@ -7,6 +7,7 @@ const {
 const { v4 } = require("uuid");
 const ms = require("ms");
 const sendEmail = require("../utils/sendEmail");
+const jwt = require("jsonwebtoken");
 
 //Register
 const register = async (req, res) => {
@@ -87,7 +88,7 @@ const login = async (req, res) => {
     }
 
     const accessToken = generateAccessToken(user._id, user.role);
-    const refreshToken = generateAccessToken(user._id, user.role);
+    const refreshToken = generateRefreshToken(user._id, user.role);
 
     const cookieOptions = {
       httpOnly: true,
@@ -203,7 +204,7 @@ const googleLogin = async (req, res) => {
 
       const hashedPassword = await bcrypt.hash(generatedPassword, 10);
       const newUser = new User({
-        username:
+        name:
           name.toLowerCase().split(" ").join("") +
           Math.random().toString(9).slice(-4),
         email,
@@ -246,6 +247,36 @@ const googleLogin = async (req, res) => {
   }
 };
 
+const refreshToken = async (req, res) => {
+  try {
+    const clientRefreshToken = req.cookies?.refreshToken;
+    const refreshTokenDecoded = jwt.verify(
+      clientRefreshToken,
+      process.env.REFRESH_JWT_SECRET
+    );
+
+    const user = {
+      _id: refreshTokenDecoded.user._id,
+      role: refreshTokenDecoded.user.role,
+    };
+
+    const accessToken = generateAccessToken(user._id, user.role);
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: ms("7 days"),
+    };
+
+    res.cookie("accessToken", accessToken, cookieOptions);
+
+    return res.status(202).json({ success: true, accessToken });
+  } catch (error) {
+    console.error(`Error in refreshToken controller ${error.message}`);
+    return res.status(401).json({ success: false, message: "Please sign in!" });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -253,4 +284,5 @@ module.exports = {
   verifyAccount,
   logout,
   googleLogin,
+  refreshToken,
 };

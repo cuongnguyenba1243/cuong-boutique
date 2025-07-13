@@ -22,4 +22,7 @@ router.post("/verify", controllers.verifyAccount);
 //Logout
 router.delete("/logout", controllers.logout);
 
+//Refresh token
+router.get("/refresh-token", controllers.refreshToken);
+
 module.exports = router;

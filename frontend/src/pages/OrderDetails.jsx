@@ -68,7 +68,7 @@ const OrderDetails = () => {
           {/* Product Lists */}
           <div className="overflow-x-auto">
             <h3 className="mb-4 text-lg font-semibold">Products</h3>
-            <table className="mb-4 min-w-full text-gray-600">
+            <table className="mb-4 min-w-full text-center text-gray-600">
               <thead className="bg-gray-100">
                 <tr>
                   <th className="px-4 py-2">Name</th>
@@ -95,7 +95,9 @@ const OrderDetails = () => {
                     </td>
                     <td className="px-4 py-2">${item.price}</td>
                     <td className="px-4 py-2">{item.quantity}</td>
-                    <td className="px-4 py-2">${item.price * item.quantity}</td>
+                    <td className="px-4 py-2">
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </td>
                   </tr>
                 ))}
               </tbody>

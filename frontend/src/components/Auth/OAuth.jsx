@@ -17,6 +17,8 @@ const OAuth = () => {
     try {
       const resultsFromGoogle = await signInWithPopup(auth, provider);
 
+      console.log(resultsFromGoogle);
+
       toast
         .promise(
           dispatch(
