@@ -47,6 +47,18 @@ export const verifyAccount = createAsyncThunk(
   },
 );
 
+export const SignInWithGoogle = createAsyncThunk(
+  "auth/SignInWithGoogle",
+  async (data) => {
+    const response = await authorizeAxiosInstance.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/google`,
+      data,
+    );
+
+    return response.data.user;
+  },
+);
+
 //Slice
 const authSlice = createSlice({
   name: "auth",
@@ -68,6 +80,19 @@ const authSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      //Login with google
+      .addCase(SignInWithGoogle.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(SignInWithGoogle.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(SignInWithGoogle.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })

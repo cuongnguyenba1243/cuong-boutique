@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createProduct } from "../../store/slice/adminProductSlice";
 import path from "../../utilities/path";
-// import axios from "axios";
 import authorizeAxiosInstance from "../../utilities/authorizeAxios";
 
 const AddNewProduct = () => {

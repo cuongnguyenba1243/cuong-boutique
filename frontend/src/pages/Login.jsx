@@ -14,6 +14,7 @@ import {
   PASSWORD_RULE_MESSAGE,
 } from "../utilities/validators";
 import FieldErrorAlert from "../components/Form/FieldErrorAlert";
+import OAuth from "../components/Auth/OAuth";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -95,6 +96,7 @@ const Login = () => {
           >
             Sign in
           </button>
+          <OAuth />
           <p className="mt-6 text-center text-sm">
             Don't have an account?
             <Link to={path.REGISTER} className="pl-1 text-blue-500 underline">

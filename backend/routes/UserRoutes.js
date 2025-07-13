@@ -10,6 +10,9 @@ router.post("/register", controllers.register);
 //Login
 router.post("/login", controllers.login);
 
+//Login with google
+router.post("/google", controllers.googleLogin);
+
 //Get logged-in user's profile
 router.get("/profile", verifyToken, controllers.profile);
 

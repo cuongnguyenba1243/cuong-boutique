@@ -9,23 +9,11 @@ const FilterSidebar = () => {
     gender: "",
     color: "",
     size: [],
-    material: [],
-    brand: [],
   });
   const categories = ["Top Wear", "Bottom Wear", "Accessory", "Sneaker"];
   const genders = ["Men", "Women"];
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
   const colors = ["Red", "Blue", "Black", "Green", "Yellow", "White"];
-  const materials = ["Cotton", "Wool", "Polyester", "Silk"];
-  const brands = [
-    "Balenciaga",
-    "Louis Vuitton",
-    "Gucci",
-    "Bape",
-    "Prada",
-    "Burberry",
-    "Ralph Lauren",
-  ];
 
   useEffect(() => {
     const params = Object.fromEntries([...searchParams]);
@@ -35,8 +23,6 @@ const FilterSidebar = () => {
       gender: params.gender || "",
       color: params.color || "",
       size: params.size ? params.size.split(",") : [],
-      material: params.material ? params.material.split(",") : [],
-      brand: params.brand ? params.brand.split(",") : [],
     });
   }, [searchParams]);
 
@@ -143,42 +129,6 @@ const FilterSidebar = () => {
               className="mr-2 h-4 w-4 cursor-pointer border-gray-300 text-blue-500 focus:ring-blue-400"
             />
             <span className="text-gray-700">{size}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Material filter */}
-      <div className="mb-6">
-        <label className="mb-2 block font-medium text-gray-600">Material</label>
-        {materials.map((material) => (
-          <div key={material} className="mb-1 flex items-center">
-            <input
-              type="checkbox"
-              name="material"
-              value={material}
-              onChange={handleFilterChange}
-              checked={filters.material.includes(material)}
-              className="mr-2 h-4 w-4 cursor-pointer border-gray-300 text-blue-500 focus:ring-blue-400"
-            />
-            <span className="text-gray-700">{material}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Brand filter */}
-      <div className="mb-6">
-        <label className="mb-2 block font-medium text-gray-600">Brand</label>
-        {brands.map((brand) => (
-          <div key={brand} className="mb-1 flex items-center">
-            <input
-              type="checkbox"
-              name="brand"
-              value={brand}
-              onChange={handleFilterChange}
-              checked={filters.brand.includes(brand)}
-              className="mr-2 h-4 w-4 cursor-pointer border-gray-300 text-blue-500 focus:ring-blue-400"
-            />
-            <span className="text-gray-700">{brand}</span>
           </div>
         ))}
       </div>

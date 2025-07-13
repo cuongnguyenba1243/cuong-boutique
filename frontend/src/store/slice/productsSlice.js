@@ -113,19 +113,6 @@ const productsSlice = createSlice({
     setFilters: (state, action) => {
       state.filters = { ...state.filters, ...action.payload };
     },
-    clearFilters: (state) => {
-      state.filters = {
-        category: "",
-        size: "",
-        color: "",
-        gender: "",
-        brand: "",
-        sortBy: "",
-        search: "",
-        material: "",
-        collection: "",
-      };
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -199,5 +186,5 @@ const productsSlice = createSlice({
   },
 });
 
-export const { setFilters, clearFilters } = productsSlice.actions;
+export const { setFilters } = productsSlice.actions;
 export default productsSlice.reducer;
